@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SupervisorController;
+use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\CashierController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,3 +34,10 @@ Route::get('/dashboard/cashier/products', function () {
     return view('cashier.products');
 })->middleware('auth');
 
+//supervisor
+Route::get('/supervisor/products', [SupervisorController::CLass, 'products']);
+Route::get('/supervisor/drivers', [SupervisorController::class, 'drivers']);
+Route::get('/supervisor/maintenances', [SupervisorController::class, 'maintenences']);
+Route::get('/supervisor/reports', [SupervisorController::Class, 'reports'])->name('reports');
+
+//cashier

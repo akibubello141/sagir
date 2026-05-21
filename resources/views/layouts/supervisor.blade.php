@@ -9,11 +9,11 @@
             <img src="{{ asset('images/logo.jpeg') }}" class="logo logo-icon" alt="Logo" style="width: 100px; height: 50px;">
             </h3>
 
-            <a href="/dashboard/cashier">
+            <a href="/dashboard/supervisor">
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
 
-            <a href="/dashboard/cashier/driver">
+            <a href="/supervisor/drivers">
                 <i class="bi bi-truck"></i> Driver
             </a>
 
@@ -21,11 +21,11 @@
                 <i class="bi bi-box-seam"></i> Products
             </a>
 
-            <a href="/dashboard/cashier/maintenance">
+            <a href="/supervisor/maintenances">
                 <i class="bi bi-wrench"></i> Maintenance
             </a>
 
-            <a href="/dashboard/cashier/reports">
+            <a href="/supervisor/reports">
                 <i class="bi bi-bar-chart"></i> Reports
             </a>
 
