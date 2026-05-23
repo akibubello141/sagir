@@ -40,4 +40,37 @@ Route::get('/supervisor/drivers', [SupervisorController::class, 'drivers']);
 Route::get('/supervisor/maintenances', [SupervisorController::class, 'maintenences']);
 Route::get('/supervisor/reports', [SupervisorController::Class, 'reports'])->name('reports');
 
+    Route::middleware(['auth'])->group(function () {
+
+        Route::middleware('role:supervisor')->group(function () {
+
+            Route::get('/supervisor/products', [SupervisorController::class, 'index']);
+
+            Route::post('/supervisor/products', [SupervisorController::class, 'store']);
+
+        });
+
+    });
+
 //cashier
+use App\Http\Controllers\Cashier\SaleController;
+use App\Http\Controllers\Cashier\CustomerController;
+
+Route::middleware(['auth', 'role:cashier'])->group(function () {
+
+    Route::get('/cashier/dashboard', [SaleController::class, 'dashboard']);
+
+    // SALES
+    Route::get('/cashier/sales', [SaleController::class, 'index']);
+    Route::post('/cashier/sales/store', [SaleController::class, 'store']);
+
+    // RECEIPT
+    Route::get('/cashier/receipt/{id}', [SaleController::class, 'receipt']);
+
+    // DAILY SALES
+    Route::get('/cashier/daily-sales', [SaleController::class, 'dailySales']);
+
+    // CUSTOMERS
+    Route::get('/cashier/customers', [CustomerController::class, 'index']);
+    Route::post('/cashier/customers/store', [CustomerController::class, 'store']);
+});

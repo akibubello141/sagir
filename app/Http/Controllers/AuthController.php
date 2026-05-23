@@ -11,7 +11,7 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-
+            return $credentials;
         if (Auth::attempt($credentials)) {
 
             $user = Auth::user();
