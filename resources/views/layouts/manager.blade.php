@@ -9,31 +9,23 @@
             <img src="{{ asset('images/logo.jpeg') }}" class="logo logo-icon" alt="Logo" style="width: 100px; height: 50px;">
             </h3>
 
-            <a href="/dashboard/cashier">
+            <a href="/manager/dashboard">
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
 
-            <a href="/dashboard/cashier/sales">
-                <i class="bi bi-cart"></i> New Sale
+            <a href="/manager/expenses">
+                <i class="bi bi-cart"></i> Expenses
             </a>
 
-            <a href="/dashboard/cashier/driver">
-                <i class="bi bi-truck"></i> Driver
+            <a href="/manager/users">
+                <i class="bi bi-truck"></i> Users
             </a>
 
-             <a href="/dashboard/cashier/products">
-                <i class="bi bi-box-seam"></i> Products
+             <a href="/manager/settings">
+                <i class="bi bi-box-seam"></i> Settings
             </a>
 
-            <a href="/dashboard/cashier/sales-history">
-                <i class="bi bi-clock-history"></i> Sales History
-            </a>
-
-            <a href="/dashboard/cashier/customers">
-                <i class="bi bi-person"></i> Customers
-            </a>
-
-            <a href="/dashboard/cashier/reports">
+            <a href="/manager/reports">
                 <i class="bi bi-bar-chart"></i> Reports
             </a>
 

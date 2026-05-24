@@ -9,7 +9,7 @@
             <img src="{{ asset('images/logo.jpeg') }}" class="logo logo-icon" alt="Logo" style="width: 100px; height: 50px;">
             </h3>
 
-            <a href="/dashboard/supervisor">
+            <a href="/supervisor/dashboard">
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
 
@@ -17,7 +17,7 @@
                 <i class="bi bi-truck"></i> Driver
             </a>
 
-             <a href="/supervisor/products">
+             <a href="/supervisor/stock">
                 <i class="bi bi-box-seam"></i> Products
             </a>
 

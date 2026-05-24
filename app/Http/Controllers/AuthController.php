@@ -11,21 +11,21 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-            return $credentials;
+
         if (Auth::attempt($credentials)) {
 
             $user = Auth::user();
 
             if ($user->role == 'cashier') {
-                return redirect('/dashboard/cashier');
+                return redirect('/cashier/dashboard');
             }
 
             if ($user->role == 'supervisor') {
-                return redirect('/dashboard/supervisor');
+                return redirect('/supervisor/dashboard');
             }
 
             if ($user->role == 'manager') {
-                return redirect('/dashboard/manager');
+                return redirect('/manager/dashboard');
             }
         }
 

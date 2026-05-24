@@ -351,6 +351,8 @@
                             >
 
                         </div>
+                        <input type="text" name="name" value="Cashier" hidden>
+                        <input type="text" name="role" value="cashier" hidden>
 
                     </div>
 

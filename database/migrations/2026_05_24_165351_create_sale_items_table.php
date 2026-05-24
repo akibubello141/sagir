@@ -6,10 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('sale_items', function (Blueprint $table) {
-
             $table->id();
 
             $table->foreignId('sale_id')
@@ -27,9 +29,13 @@ return new class extends Migration
             $table->decimal('subtotal', 10, 2);
 
             $table->timestamps();
+       
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('sale_items');
