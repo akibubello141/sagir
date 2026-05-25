@@ -36,7 +36,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <form method="POST" action="/cashier/save-customer">
+      <form method="POST" action="/cashier/customers/store">
         @csrf
 
         <div class="modal-header">

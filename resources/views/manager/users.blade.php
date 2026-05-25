@@ -11,12 +11,19 @@
         </button>
     </div>
 
+      @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
 <table class="table table-bordered">
 
 <tr>
 <th>Name</th>
 <th>Email</th>
 <th>Role</th>
+<th>Action</th>
 </tr>
 
 @foreach($users as $user)
@@ -25,6 +32,8 @@
 <td>{{ $user->name }}</td>
 <td>{{ $user->email }}</td>
 <td>{{ strtoupper($user->role) }}</td>
+<td><a href="/manager/delete-user/{{ $user->id }}" class="btn btn-sm btn-outline-danger">Delete</a>
+</td>
 </tr>
 
 @endforeach
@@ -47,7 +56,7 @@
         <div class="modal-body">
 
             <div class="mb-2">
-                <label>User Name</label>
+                <label>Full Name</label>
                 <input type="text" name="name" class="form-control" required>
             </div>
 
@@ -64,8 +73,9 @@
             <div class="mb-2">
                 <label>Role</label>
                 <select name="role" class="form-control" required>
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
+                    <option value="CASHIER">CASHIER</option>
+                    <option value="SUPERVISOR">SUPERVISOR</option>
+                    <option value="MANAGER">MANAGER</option>
                 </select>
             </div>
 

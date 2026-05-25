@@ -15,7 +15,10 @@ class SaleController extends Controller
     {
         $todaySales = Sale::whereDate('created_at', today())->sum('total_amount');
 
-        return view('cashier.dashboard', compact('todaySales'));
+        $products = Product::all();
+        $customers = Customer::count('id');
+
+        return view('cashier.dashboard', compact('todaySales','products','customers'));
     }
 
     public function index()
@@ -62,6 +65,7 @@ class SaleController extends Controller
     public function dailySales()
     {
         $sales = Sale::whereDate('created_at', today())->latest()->get();
+
 
         return view('cashier.daily-sales', compact('sales'));
     }

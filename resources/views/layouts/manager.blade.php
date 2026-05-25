@@ -29,6 +29,10 @@
                 <i class="bi bi-bar-chart"></i> Reports
             </a>
 
+            <a href="/manager/backup">
+                <i class="bi bi-download"></i> Backup
+            </a>
+
             <a href="/logout">
                 <i class="bi bi-box-arrow-right"></i> Logout
             </a>

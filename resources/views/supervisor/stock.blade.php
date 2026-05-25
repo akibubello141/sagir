@@ -10,6 +10,7 @@
     <th>Product</th>
     <th>Stock</th>
     <th>Add Stock</th>
+    <th>Action</th>
 </tr>
 
 @foreach($products as $product)
@@ -42,6 +43,8 @@ Add Stock
 </form>
 
 </td>
+<td><i class="fas fa-edit">Edit</i>
+    <br><i class="fas fa-trash">Delete</i></td>
 
 </tr>
 

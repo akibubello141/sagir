@@ -2,38 +2,88 @@
 
 @section('content')
 
-<h3>Expenses</h3>
+<div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Expenses</h3>
 
-<form method="POST" action="/manager/save-expense">
+        <!-- Add Expense Button -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+            + Add Expense
+        </button>
+    </div>
 
-@csrf
+      @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
 
-<input
-type="text"
-name="title"
-placeholder="Expense Title"
-class="form-control mb-2">
+<table class="table table-bordered">
+    <thead>
+        <tr class="table-secondary">
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($expenses as $expense)
+        <tr class="table-light">
+            <td>{{ $expense->title }}</td>
+            <td>${{ number_format($expense->amount, 2) }}</td>
+            <td>{{ $expense->description }}</td>
+            <td>{{ $expense->expense_date }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
 
-<input
-type="number"
-name="amount"
-placeholder="Amount"
-class="form-control mb-2">
+<!-- 🟢 ADD USER MODAL -->
+<div class="modal fade" id="addUserModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-<textarea
-name="description"
-class="form-control mb-2"
-placeholder="Description"></textarea>
+      <form method="POST" action="/manager/save-expense">
+        @csrf
 
-<input
-type="date"
-name="expense_date"
-class="form-control mb-2">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Expense</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
 
-<button class="btn btn-success">
-Save Expense
-</button>
+        <div class="modal-body">
 
-</form>
+            <div class="mb-2">
+                <label>Expense Title</label>
+                <input type="text" name="title" class="form-control" required>
+            </div>
+
+            <div class="mb-2">
+                <label>Amount</label>
+                <input type="number" name="amount" class="form-control" required>
+            </div>
+
+            <div class="mb-2">
+                <label>Description</label>
+                <textarea name="description" class="form-control" required></textarea>
+            </div>
+
+            <div class="mb-2">
+                <label>Date</label>
+                <input type="date" name="expense_date" class="form-control" required>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button class="btn btn-primary">Save Expense</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
 
 @endsection

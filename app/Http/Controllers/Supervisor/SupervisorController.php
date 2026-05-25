@@ -59,7 +59,7 @@ class SupervisorController extends Controller
         );
 
         StockMovement::create([
-            'product_id' => $product->id,
+            'product_id' => $request->product_id,
             'type' => 'in',
             'quantity' => $request->quantity,
             'note' => 'Stock Added',

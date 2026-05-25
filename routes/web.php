@@ -15,9 +15,9 @@ Route::get('/', function () {
 });
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::view('/cashier/dashboard', 'dashboard.cashier');
-Route::view('/supervisor/dashboard', 'dashboard.supervisor');
-Route::view('/manager/dashboard ', 'dashboard.manager');
+Route::view('/cashier/dashboard', 'cashier.dashboard');
+Route::view('/supervisor/dashboard', 'supervisor.dashboard');
+Route::view('/manager/dashboard ', 'manager.dashboard');
 
 Route::get('/logout', [AuthController::class, 'logout']);
 
@@ -115,6 +115,25 @@ Route::middleware([
         [ManagerController::class, 'users']
     );
 
+    //Edit user
+    Route::get(
+        '/manager/edit-user/{id}',
+        [ManagerController::class, 'editUser']
+    );
+
+    //Update user
+   // Route::post(
+     //   '/manager/update-user/{id}',
+       // [ManagerController::class, 'updateUser']
+    //);
+
+    //delete user
+    Route::get(
+        '/manager/delete-user/{id}',
+        [ManagerController::class, 'deleteUser']
+    );
+
+    //save user
     Route::post(
         '/manager/save-user',
         [ManagerController::class, 'saveUser']

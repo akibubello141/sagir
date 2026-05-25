@@ -18,7 +18,7 @@ class ManagerController extends Controller
     // DASHBOARD
     public function dashboard()
     {
-        $totalSales = Sale::sum('total_amount');
+        $totalSales = Sale::all('total_amount')->sum('total_amount');
 
         $totalExpenses = Expense::sum('amount');
 
@@ -64,6 +64,7 @@ class ManagerController extends Controller
     // CREATE USER
     public function saveUser(Request $request)
     {
+      
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -74,6 +75,47 @@ class ManagerController extends Controller
         return back()->with(
             'success',
             'User created successfully'
+        );
+    }
+
+    // EDIT USER
+    public function editUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        return view(
+            'manager.edit_user',
+            compact('user')
+        );
+    }
+
+    // UPDATE USER
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => $request->role,
+        ]);
+
+       $users = User::latest()->get();
+
+        return view(
+            'manager.users',
+            compact('users')
+        );
+    }
+
+    //delete user
+    public function deleteUser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();    
+        return back()->with(
+            'success',
+            'User deleted successfully'
         );
     }
 

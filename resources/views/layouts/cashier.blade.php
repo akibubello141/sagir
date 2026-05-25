@@ -31,10 +31,7 @@
             <a href="/cashier/reports">
                  <i class="bi bi-bar-chart"></i> Sales Report
             </a>
-            <a href="/cashier/reports">
-                 <i class="bi bi-bar-chart"></i> Inventory Report
-            </a>
-
+    
             <a href="/logout">
                 <i class="bi bi-box-arrow-right"></i> Logout
             </a>

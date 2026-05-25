@@ -8,7 +8,7 @@
 
     <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-md-3 p-2">
             <div class="card bg-success text-white shadow">
                 <div class="card-body">
                     <h5>Today's Sales</h5>
@@ -16,6 +16,28 @@
                 </div>
             </div>
         </div>
+
+         <div class="col-md-3 p-2">
+            <div class="card bg-success text-white shadow">
+                <div class="card-body">
+                    <h5>Customers</h5>
+                    <h2>NO.{{ $customers }}</h2>
+                </div>
+            </div>
+        </div>
+
+     @foreach($products as $product)
+
+        <div class="col-md-3 p-2">
+            <div class="card bg-success text-white shadow">
+                <div class="card-body ">
+                    <h5>{{ $product->name }} (<strong>{{ $product->stock_quantity }}</strong>)</h5>
+                    <h2>₦{{ $product->price }}</h2>
+                </div>
+            </div>
+        </div>
+
+         @endforeach
 
     </div>
 

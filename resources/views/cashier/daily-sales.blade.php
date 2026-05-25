@@ -8,10 +8,11 @@
 
 <thead>
 <tr>
-    <th>Receipt</th>
     <th>Amount</th>
     <th>Payment</th>
     <th>Date</th>
+    <th>Receipt</th>
+    <th>Action</th>
 </tr>
 </thead>
 
@@ -20,10 +21,11 @@
 @foreach($sales as $sale)
 
 <tr>
-    <td>#{{ $sale->id }}</td>
     <td>₦{{ $sale->total_amount }}</td>
     <td>{{ strtoupper($sale->payment_method) }}</td>
     <td>{{ $sale->created_at }}</td>
+    <td>#{{ $sale->id }}</td>
+    <td><a href="/cashier/receipt/{{ $sale->id }}">Print</a></td>
 </tr>
 
 @endforeach
