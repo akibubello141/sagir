@@ -12,4 +12,9 @@ class Product extends Model
         'stock_quantity',
         'low_stock_limit',
     ];
+
+    public function saleItems()
+    {
+        return $this->hasMany(SaleItem::class);
+    }
 }

@@ -18,12 +18,12 @@
 
         .sidebar{
             min-height:100vh;
-            background:#0056b3;
+            background:#fff;
             color:white;
         }
 
         .sidebar a{
-            color:white;
+            color:#0056b3;
             text-decoration:none;
             display:block;
             padding:12px;

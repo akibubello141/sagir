@@ -73,9 +73,9 @@
             <div class="mb-2">
                 <label>Role</label>
                 <select name="role" class="form-control" required>
-                    <option value="CASHIER">CASHIER</option>
-                    <option value="SUPERVISOR">SUPERVISOR</option>
-                    <option value="MANAGER">MANAGER</option>
+                    <option value="cashier">CASHIER</option>
+                    <option value="supervisor">SUPERVISOR</option>
+                    <option value="manager">MANAGER</option>
                 </select>
             </div>
 

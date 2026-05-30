@@ -13,19 +13,17 @@
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
 
-            <a href="/supervisor/drivers">
+            <a href="#">
                 <i class="bi bi-truck"></i> Driver
             </a>
 
              <a href="/supervisor/stock">
                 <i class="bi bi-box-seam"></i> Products
             </a>
-
-            <a href="/supervisor/maintenances">
-                <i class="bi bi-wrench"></i> Maintenance
+            <a href="/supervisor/returns">
+                <i class="bi bi-arrow-return-left"></i> Returns & Damages
             </a>
-
-            <a href="/supervisor/reports">
+            <a href="/supervisor/report">
                 <i class="bi bi-bar-chart"></i> Reports
             </a>
 

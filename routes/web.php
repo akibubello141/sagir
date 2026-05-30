@@ -17,7 +17,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::view('/cashier/dashboard', 'cashier.dashboard');
 Route::view('/supervisor/dashboard', 'supervisor.dashboard');
-Route::view('/manager/dashboard ', 'manager.dashboard');
+Route::view('/manager/dash', 'manager.dash');
 
 Route::get('/logout', [AuthController::class, 'logout']);
 
@@ -70,6 +70,23 @@ Route::get('/logout', [AuthController::class, 'logout']);
             [SupervisorController::class, 'approveCorrection']
         );
 
+        // REPORT
+        Route::get(
+        '/supervisor/report',
+        [SupervisorController::class, 'report']
+    );
+
+    // RETURN DAMAGE
+        Route::get(
+        '/supervisor/returns',
+        [SupervisorController::class, 'returns']
+    );
+
+    Route::post(
+        '/supervisor/returns/store',
+        [SupervisorController::class, 'storeReturn']
+    );
+
     });
 
 //cashier
@@ -93,20 +110,27 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
     // CUSTOMERS
     Route::get('/cashier/customers', [CustomerController::class, 'index']);
     Route::post('/cashier/customers/store', [CustomerController::class, 'store']);
+
+    // REPORT
+    Route::get(
+        '/cashier/report',
+        [SaleController::class, 'report']
+    );
 });
 
 
 
 //manager
-
-Route::middleware([
-    'auth',
-    'role:manager'
-])->group(function () {
+Route::middleware(['auth','role:manager'])->group(function () {
 
     Route::get(
         '/manager/dashboard',
         [ManagerController::class, 'dashboard']
+    );
+
+    Route::get(
+        '/manager/dash',
+        [ManagerController::class, 'dash']
     );
 
     // USERS
@@ -166,5 +190,10 @@ Route::middleware([
         '/manager/backup',
         [ManagerController::class, 'backup']
     );
+
+    //report
+    Route::get(
+    '/manager/report',
+    [ManagerController::class, 'report'])->name('manager.report');
 
 });

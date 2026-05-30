@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Manager;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
 use App\Models\User;
 use App\Models\Sale;
 use App\Models\Product;
@@ -13,31 +14,61 @@ use App\Models\ProductionRecord;
 use App\Models\SaleItem;
 
 
+
 class ManagerController extends Controller
 {
     // DASHBOARD
-    public function dashboard()
+  public function  dash()
     {
-        $totalSales = Sale::all('total_amount')->sum('total_amount');
+        // TOTAL SALES
+        $totalSales = Sale::sum('total_amount');
 
+        // TOTAL EXPENSES
         $totalExpenses = Expense::sum('amount');
 
+        // PROFIT
         $profit = $totalSales - $totalExpenses;
 
+        // TOTAL PRODUCTS
         $products = Product::count();
 
+        // TOTAL USERS
         $users = User::count();
-
+        // TOTAL PRODUCTION
         $production = ProductionRecord::sum(
             'quantity_produced'
         );
 
-        $bestSelling = Product::withCount('saleItems')
-            ->orderBy('sale_items_count', 'desc')
-            ->first();
+        // MONTHLY SALES
+        $monthlySales = Sale::selectRaw(
+            'MONTH(created_at) as month,
+            SUM(total_amount) as total'
+        )
+        ->groupBy('month')
+        ->get();
 
-        return view(
-            'manager.dashboard',
+        // MONTHLY EXPENSES
+        $monthlyExpenses = Expense::selectRaw(
+            'MONTH(created_at) as month,
+            SUM(amount) as total'
+        )
+        ->groupBy('month')
+        ->get();
+
+        // PRODUCT SALES
+        $productSales = Product::withCount(
+            'saleItems'
+        )->get();
+
+        // BEST SELLING
+        $bestSelling = Product::withCount(
+            'saleItems'
+        )
+        ->orderBy('sale_items_count', 'desc')
+        ->first();
+
+         return view(
+            'manager.dash',
             compact(
                 'totalSales',
                 'totalExpenses',
@@ -45,6 +76,9 @@ class ManagerController extends Controller
                 'products',
                 'users',
                 'production',
+                'monthlySales',
+                'monthlyExpenses',
+                'productSales',
                 'bestSelling'
             )
         );
@@ -71,6 +105,8 @@ class ManagerController extends Controller
             'password' => bcrypt($request->password),
             'role' => $request->role,
         ]);
+
+       
 
         return back()->with(
             'success',
@@ -183,6 +219,62 @@ class ManagerController extends Controller
 
         return response()->download(
             database_path($fileName)
+        );
+    }
+
+    public function report(Request $request)
+    {
+        $query = Sale::query();
+
+        if ($request->start_date && $request->end_date) {
+
+            $query->whereBetween('created_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ]);
+        }
+
+        $sales = $query->latest()->get();
+
+        $totalSales = $sales->sum('total_amount');
+
+        $totalExpenses = Expense::when(
+            $request->start_date,
+            function ($q) use ($request) {
+                return $q->whereBetween(
+                    'expense_date',
+                    [
+                        $request->start_date,
+                        $request->end_date
+                    ]
+                );
+            }
+        )->sum('amount');
+
+        $totalProduction = ProductionRecord::when(
+            $request->start_date,
+            function ($q) use ($request) {
+                return $q->whereBetween(
+                    'production_date',
+                    [
+                        $request->start_date,
+                        $request->end_date
+                    ]
+                );
+            }
+        )->sum('quantity_produced');
+
+        $profit = $totalSales - $totalExpenses;
+
+        return view(
+            'manager.report',
+            compact(
+                'sales',
+                'totalSales',
+                'totalExpenses',
+                'profit',
+                'totalProduction'
+            )
         );
     }
 }

@@ -25,7 +25,7 @@ class AuthController extends Controller
             }
 
             if ($user->role == 'manager') {
-                return redirect('/manager/dashboard');
+                return redirect('/manager/dash');
             }
         }
 

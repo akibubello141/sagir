@@ -69,4 +69,64 @@ class SaleController extends Controller
 
         return view('cashier.daily-sales', compact('sales'));
     }
+
+    //report
+    public function report()
+{
+    // DAILY SALES
+    $dailySales = \App\Models\Sale::whereDate(
+        'created_at',
+        today()
+    )->sum('total_amount');
+
+    // WEEKLY SALES
+    $weeklySales = \App\Models\Sale::whereBetween(
+        'created_at',
+        [now()->startOfWeek(), now()->endOfWeek()]
+    )->sum('total_amount');
+
+    // MONTHLY SALES
+    $monthlySales = \App\Models\Sale::whereMonth(
+        'created_at',
+        now()->month
+    )->sum('total_amount');
+
+    // TOTAL SALES COUNT
+    $totalTransactions = \App\Models\Sale::count();
+
+    // PAYMENT SUMMARY
+    $cashSales = \App\Models\Sale::where(
+        'payment_method',
+        'cash'
+    )->sum('total_amount');
+
+    $transferSales = \App\Models\Sale::where(
+        'payment_method',
+        'transfer'
+    )->sum('total_amount');
+
+    $posSales = \App\Models\Sale::where(
+        'payment_method',
+        'pos'
+    )->sum('total_amount');
+
+    // RECENT SALES
+    $recentSales = \App\Models\Sale::latest()
+        ->take(10)
+        ->get();
+
+    return view(
+        'cashier.report',
+        compact(
+            'dailySales',
+            'weeklySales',
+            'monthlySales',
+            'totalTransactions',
+            'cashSales',
+            'transferSales',
+            'posSales',
+            'recentSales'
+        )
+    );
+}
 }

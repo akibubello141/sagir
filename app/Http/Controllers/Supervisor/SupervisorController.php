@@ -9,6 +9,7 @@ use App\Models\Sale;
 use App\Models\ProductionRecord;
 use App\Models\StockMovement;
 use App\Models\SaleCorrection;
+use App\Models\ReturnDamage;
 
 class SupervisorController extends Controller
 {
@@ -151,4 +152,100 @@ class SupervisorController extends Controller
             'Correction approved'
         );
     }
+
+    //report
+    public function report()
+{
+    // TOTAL PRODUCTION
+    $totalProduction = \App\Models\ProductionRecord::sum(
+        'quantity_produced'
+    );
+
+    // TOTAL DAMAGED
+    $damagedProducts = \App\Models\ProductionRecord::sum(
+        'damaged_quantity'
+    );
+
+    // TOTAL RETURNS
+    $returnedProducts = \App\Models\ProductionRecord::sum(
+        'returned_quantity'
+    );
+
+    // STOCK IN
+    $stockIn = \App\Models\StockMovement::where(
+        'type',
+        'in'
+    )->sum('quantity');
+
+    // STOCK OUT
+    $stockOut = \App\Models\StockMovement::where(
+        'type',
+        'out'
+    )->sum('quantity');
+
+    // LOW STOCK PRODUCTS
+    $lowStockProducts = \App\Models\Product::whereColumn(
+        'stock_quantity',
+        '<=',
+        'low_stock_limit'
+    )->get();
+
+    // CASHIER SALES
+    $cashierSales = \App\Models\Sale::latest()
+        ->take(10)
+        ->get();
+
+    // RECENT PRODUCTIONS
+    $recentProductions = \App\Models\ProductionRecord::latest()
+        ->take(10)
+        ->get();
+
+    return view(
+        'supervisor.report',
+        compact(
+            'totalProduction',
+            'damagedProducts',
+            'returnedProducts',
+            'stockIn',
+            'stockOut',
+            'lowStockProducts',
+            'cashierSales',
+            'recentProductions'
+        )
+    );
+}
+
+// RETURN & DAMAGE
+
+    public function returns()
+    {
+        $products = Product::all();
+
+        $records = ReturnDamage::latest()->get();
+
+        return view(
+            'supervisor.returns',
+            compact('products', 'records')
+        );
+    }
+
+        public function storeReturn(Request $request)
+    {
+        ReturnDamage::create([
+            'product_id' => $request->product_id,
+            'returned_by' => $request->returned_by,
+            'type' => $request->type,
+            'quantity' => $request->quantity,
+            'reason' => $request->reason,
+            'supervisor_id' => auth()->id(),
+            'record_date' => now(),
+        ]);
+
+        return back()->with(
+            'success',
+            'Record saved successfully'
+        );
+    }
+
+
 }

@@ -9,7 +9,7 @@
             <img src="{{ asset('images/logo.jpeg') }}" class="logo logo-icon" alt="Logo" style="width: 100px; height: 50px;">
             </h3>
 
-            <a href="/manager/dashboard">
+            <a href="/manager/dash">
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
 
@@ -25,7 +25,7 @@
                 <i class="bi bi-box-seam"></i> Settings
             </a>
 
-            <a href="/manager/reports">
+            <a href="/manager/report">
                 <i class="bi bi-bar-chart"></i> Reports
             </a>
 

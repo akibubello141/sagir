@@ -28,7 +28,7 @@
             <a href="/cashier/daily-sales">
                  <i class="bi bi-bar-chart"></i> Daily Sales
             </a>
-            <a href="/cashier/reports">
+            <a href="/cashier/report">
                  <i class="bi bi-bar-chart"></i> Sales Report
             </a>
     
