@@ -17,8 +17,8 @@
                 <i class="bi bi-cart"></i> New Sale
             </a>
 
-            <a href="/cashier/drivers">
-                <i class="bi bi-truck"></i> Driver
+            <a href="/cashier/driver-return">
+                 <i class="bi bi-truck"></i> Driver Returns
             </a>
 
             <a href="/cashier/customers">

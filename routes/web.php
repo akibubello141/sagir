@@ -7,6 +7,9 @@ use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\CashierController;
 use App\Http\Controllers\Cashier\SaleController;
 use App\Http\Controllers\Cashier\CustomerController;
+use App\Http\Controllers\Supervisor\DeliveryController;
+use App\Http\Controllers\Cashier\DeliveryReturnController;
+
 
 
 
@@ -87,6 +90,28 @@ Route::get('/logout', [AuthController::class, 'logout']);
         [SupervisorController::class, 'storeReturn']
     );
 
+    // DRIVER
+
+            Route::middleware(['auth'])->group(function () {
+
+            Route::get(
+                '/supervisor/load-products',
+                [DeliveryController::class, 'create']
+            );
+
+            Route::post(
+                '/supervisor/load-products',
+                [DeliveryController::class, 'store']
+            );
+
+        });
+
+        //DELIVERY HISTORY
+                    Route::get(
+            '/supervisor/delivery-history',
+            [DeliveryController::class,'history']
+            );
+
     });
 
 //cashier
@@ -115,6 +140,17 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
     Route::get(
         '/cashier/report',
         [SaleController::class, 'report']
+    );
+
+    //DELIVARY RETURNS
+    Route::get(
+        '/cashier/driver-return',
+        [DeliveryReturnController::class,'create']
+    );
+
+    Route::post(
+        '/cashier/driver-return',
+        [DeliveryReturnController::class,'store']
     );
 });
 
@@ -195,5 +231,10 @@ Route::middleware(['auth','role:manager'])->group(function () {
     Route::get(
     '/manager/report',
     [ManagerController::class, 'report'])->name('manager.report');
+
+    //DRIVER RETURNS
+    Route::get(
+    '/manager/driver-report',
+    [ManagerController::class, 'driverReport'])->name('manager.driver.report');
 
 });

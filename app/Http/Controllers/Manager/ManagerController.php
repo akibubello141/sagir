@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\DeliveryReturn;
 
 use App\Models\User;
 use App\Models\Sale;
@@ -277,4 +278,20 @@ class ManagerController extends Controller
             )
         );
     }
+
+    // DRIVER RETURNS REPORT
+        public function driverReport()
+        {
+            $reports = DeliveryReturn::with([
+                'deliveryLoad.driver',
+                'product'
+            ])
+            ->latest()
+            ->get();
+
+            return view(
+                'manager.driver-report',
+                compact('reports')
+            );
+        }
 }

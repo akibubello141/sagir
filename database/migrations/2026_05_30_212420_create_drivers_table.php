@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('drivers', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+                $table->id();
+                $table->string('name');
+                $table->string('phone')->nullable();
+                $table->string('vehicle_number')->nullable();
+                $table->timestamps();
+
         });
     }
 

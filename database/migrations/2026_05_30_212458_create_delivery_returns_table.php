@@ -12,9 +12,62 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('delivery_returns', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+                        $table->id();
+
+                $table->foreignId('delivery_load_id')
+                    ->constrained()
+                    ->cascadeOnDelete();
+
+                $table->foreignId('product_id')
+                    ->constrained()
+                    ->cascadeOnDelete();
+
+                $table->integer('quantity_returned');
+
+                $table->decimal(
+                    'cash_collected',
+                    12,
+                    2
+                )->default(0);
+
+                $table->text('remarks')
+                    ->nullable();
+
+                $table->foreignId('cashier_id')
+                    ->constrained('users')
+                    ->cascadeOnDelete();
+
+                $table->timestamps();
         });
+
+        Schema::create('delivery_returns', function (Blueprint $table) {
+
+    $table->id();
+
+    $table->foreignId('delivery_load_id')
+        ->constrained()
+        ->cascadeOnDelete();
+
+    $table->foreignId('product_id')
+        ->constrained()
+        ->cascadeOnDelete();
+
+    $table->integer('quantity_returned');
+
+    $table->decimal('cash_collected',12,2);
+
+    $table->decimal('expected_amount',12,2);
+
+    $table->decimal('difference',12,2)->default(0);
+
+    $table->foreignId('cashier_id')
+        ->constrained('users')
+        ->cascadeOnDelete();
+
+    $table->text('remarks')->nullable();
+
+    $table->timestamps();
+});
     }
 
     /**

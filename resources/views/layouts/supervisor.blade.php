@@ -17,6 +17,14 @@
                 <i class="bi bi-truck"></i> Driver
             </a>
 
+            <a href="/supervisor/load-products">
+                <i class="bi bi-truck"></i> Load Products
+            </a>
+
+            <a href="/supervisor/delivery-history">
+                <i class="bi bi-truck"></i> Delivery History
+            </a>
+
              <a href="/supervisor/stock">
                 <i class="bi bi-box-seam"></i> Products
             </a>
