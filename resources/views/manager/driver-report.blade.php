@@ -4,222 +4,211 @@
 
 <div class="container-fluid">
 
-<div class="d-flex justify-content-between mb-4">
+    <div class="d-flex justify-content-between mb-4">
 
-<h2>Driver Delivery Report</h2>
+    <h2>Driver Delivery Report</h2>
 
-<button
-onclick="window.print()"
-class="btn btn-dark">
+    <button
+    onclick="window.print()"
+    class="btn btn-dark">
 
-Print Report
+    Print Report
 
-</button>
+    </button>
 
-</div>
+    </div>
 
-<div class="row mb-4">
+    <div class="row mb-4">
 
-<div class="col-md-3">
+    <div class="col-md-3">
 
-<div class="card bg-success text-white">
+    <div class="card bg-success text-white">
 
-<div class="card-body">
+    <div class="card-body">
 
-<h5>Total Cash</h5>
+    <h5>Total Cash</h5>
 
-<h3>
-₦{{ number_format(
-$reports->sum('cash_collected'),
-2
-) }}
-</h3>
+    <h3>
+    ₦{{ number_format(
+    $reports->sum('cash_collected'),
+    2
+    ) }}
+    </h3>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-<div class="col-md-3">
+    <div class="col-md-3">
 
-<div class="card bg-primary text-white">
+    <div class="card bg-primary text-white">
 
-<div class="card-body">
+    <div class="card-body">
 
-<h5>Expected Revenue</h5>
+    <h5>Expected Revenue</h5>
 
-<h3>
-₦{{ number_format(
-$reports->sum('expected_amount'),
-2
-) }}
-</h3>
+    <h3>
+    ₦{{ number_format(
+    $reports->sum('expected_amount'),
+    2
+    ) }}
+    </h3>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-<div class="col-md-3">
+    <div class="col-md-3">
 
-<div class="card bg-danger text-white">
+    <div class="card bg-danger text-white">
 
-<div class="card-body">
+    <div class="card-body">
 
-<h5>Total Shortage</h5>
+    <h5>Total Shortage</h5>
 
-<h3>
-₦{{ number_format(
-$reports->where(
-'difference',
-'<',
-0
-)->sum('difference') * -1,
-2
-) }}
-</h3>
+    <h3>
+    ₦{{ number_format(
+    $reports->where(
+    'difference',
+    '<',
+    0
+    )->sum('difference') * -1,
+    2
+    ) }}
+    </h3>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-<div class="col-md-3">
+    <div class="col-md-3">
 
-<div class="card bg-warning">
+    <div class="card bg-warning">
 
-<div class="card-body">
+    <div class="card-body">
 
-<h5>Total Returns</h5>
+    <h5>Total Returns</h5>
 
-<h3>
-{{ $reports->sum(
-'quantity_returned'
-) }}
-</h3>
+    <h3>
+    {{ $reports->sum(
+    'quantity_returned'
+    ) }}
+    </h3>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-<table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped">
 
-<thead>
+        <thead>
+            <tr>
+                <th>Driver</th>
+                <th>Product</th>
+                <th>Loaded</th>
+                <th>Returned</th>
+                <th>Sold</th>
+                <th>Expected</th>
+                <th>Cash Collected</th>
+                <th>Difference</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
 
-<tr>
+        @foreach($reports as $report)
 
-<th>Driver</th>
-<th>Product</th>
-<th>Loaded</th>
-<th>Returned</th>
-<th>Sold</th>
-<th>Expected</th>
-<th>Cash Collected</th>
-<th>Difference</th>
-<th>Date</th>
+        @php
 
-</tr>
+        $loaded = $report->deliveryLoad->items->quantity_loaded ?? 0;
 
-</thead>
+        $sold = $loaded - $report->quantity_returned;
 
-<tbody>
+        @endphp
 
-@foreach($reports as $report)
+        <tr>
 
-@php
+        <td>
+        {{ $report->deliveryLoad->driver->name }}
+        </td>
 
-$loaded =
-$report->deliveryLoad
-->items
-->first()
-->quantity_loaded ?? 0;
+        <td>
+        {{ $report->product->name }}
+        </td>
 
-$sold =
-$loaded -
-$report->quantity_returned;
+        <td>
+        {{ $loaded }}
+        </td>
 
-@endphp
+        <td>
+        {{ $report->quantity_returned }}
+        </td>
 
-<tr>
+        <td>
+        {{ $sold }}
+        </td>
 
-<td>
-{{ $report->deliveryLoad->driver->name }}
-</td>
+        <td>
+        ₦{{ number_format($report->expected_amount,2) }}
+        </td>
 
-<td>
-{{ $report->product->name }}
-</td>
+        <td>
+        ₦{{ number_format($report->cash_collected,2) }}
+        </td>
 
-<td>
-{{ $loaded }}
-</td>
+        <td>
 
-<td>
-{{ $report->quantity_returned }}
-</td>
+        @if($report->difference < 0)
 
-<td>
-{{ $sold }}
-</td>
+        <span class="badge bg-danger">
 
-<td>
-₦{{ number_format($report->expected_amount,2) }}
-</td>
+        ₦{{ number_format(abs($report->difference),2) }}
+        Shortage
 
-<td>
-₦{{ number_format($report->cash_collected,2) }}
-</td>
+        </span>
 
-<td>
+        @elseif($report->difference > 0)
 
-@if($report->difference < 0)
+        <span class="badge bg-success">
 
-<span class="badge bg-danger">
+        ₦{{ number_format($report->difference,2) }}
+        Excess
 
-₦{{ number_format(abs($report->difference),2) }}
-Shortage
+        </span>
 
-</span>
+        @else
 
-@elseif($report->difference > 0)
+        <span class="badge bg-primary">
 
-<span class="badge bg-success">
+        Balanced
 
-₦{{ number_format($report->difference,2) }}
-Excess
+        </span>
 
-</span>
+        @endif
 
-@else
+        </td>
 
-<span class="badge bg-primary">
+        <td>
+        {{ $report->created_at->format('d-m-Y') }}
+        </td>
 
-Balanced
+        </tr>
 
-</span>
+        @endforeach
 
-@endif
+        </tbody>
 
-</td>
-
-<td>
-{{ $report->created_at->format('d-m-Y') }}
-</td>
-
-</tr>
-
-@endforeach
-
-</tbody>
-
-</table>
+        </table>
 
 </div>
 

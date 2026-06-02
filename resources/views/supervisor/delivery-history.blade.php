@@ -1,3 +1,6 @@
+@extends('layouts.supervisor')
+
+@section('content')
 <table class="table table-bordered">
 
 <tr>
@@ -24,3 +27,5 @@
 @endforeach
 
 </table>
+
+@endsection

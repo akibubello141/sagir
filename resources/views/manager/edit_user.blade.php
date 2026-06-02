@@ -43,7 +43,7 @@
 
         </div>
 
-        <div class="modal-footer center">
+        <div class="modal-footer justify-content-between">
           <button class="btn btn-primary center">Save User</button>
         </div>
 

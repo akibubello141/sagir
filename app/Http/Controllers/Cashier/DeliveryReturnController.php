@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Cashier;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\DeliveryLoad;
+use App\Models\DeliveryItem;
+use App\Models\Product;
+use App\Models\DeliveryReturn;
+
 class DeliveryReturnController extends Controller
 {
     //Show Return Form
@@ -24,56 +29,26 @@ class DeliveryReturnController extends Controller
         //Save Return
                 public function store(Request $request)
         {
-            $delivery = DeliveryLoad::findOrFail(
-                $request->delivery_load_id
-            );
+            $delivery = DeliveryLoad::findOrFail($request->delivery_load_id);
 
-            $item = DeliveryItem::where(
-                'delivery_load_id',
-                $delivery->id
-            )->first();
 
-            $product = Product::findOrFail(
-                $item->product_id
-            );
+            $item = DeliveryItem::where('delivery_load_id',$delivery->id)->first();
 
-            $sold =
-                $item->quantity_loaded -
-                $request->quantity_returned;
+            $product = Product::findOrFail($item->product_id);
 
-            $expected =
-                $sold *
-                $product->price;
+            request()->validate([
+                'quantity_returned' => 'required|numeric|min:0|max:' . $item->quantity_loaded,
+                'cash_collected' => 'required|numeric|min:0',
+                'remarks' => 'nullable|string|max:255',
+            ]);
 
-            $difference =
-                $request->cash_collected -
-                $expected;
+            $sold = $item->quantity_loaded - $request->quantity_returned;
 
-            DeliveryReturn::create([
+            $expected = $sold *  $product->price;
 
-                'delivery_load_id' =>
-                    $delivery->id,
+            $difference =$request->cash_collected - $expected;
 
-                'product_id' =>
-                    $product->id,
-
-                'quantity_returned' =>
-                    $request->quantity_returned,
-
-                'cash_collected' =>
-                    $request->cash_collected,
-
-                'expected_amount' =>
-                    $expected,
-
-                'difference' =>
-                    $difference,
-
-                'cashier_id' =>
-                    auth()->id(),
-
-                'remarks' =>
-                    $request->remarks
+            DeliveryReturn::create(['delivery_load_id' =>$delivery->id,'product_id' =>$product->id,'quantity_returned' =>$request->quantity_returned,'cash_collected' =>$request->cash_collected,'expected_amount' =>$expected,'difference' =>$difference,'cashier_id' => auth()->user()->id,'remarks' =>$request->remarks
             ]);
 
             // Add returned stock back

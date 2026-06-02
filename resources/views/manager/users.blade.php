@@ -32,7 +32,9 @@
 <td>{{ $user->name }}</td>
 <td>{{ $user->email }}</td>
 <td>{{ strtoupper($user->role) }}</td>
-<td><a href="/manager/delete-user/{{ $user->id }}" class="btn btn-sm btn-outline-danger">Delete</a>
+<td>
+  <a href="/manager/edit-user/{{ $user->id }}" class="btn btn-sm btn-outline-warning">edit</a>
+  <a href="/manager/delete-user/{{ $user->id }}" class="btn btn-sm btn-outline-danger">Delete</a>
 </td>
 </tr>
 

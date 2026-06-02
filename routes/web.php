@@ -112,6 +112,22 @@ Route::get('/logout', [AuthController::class, 'logout']);
             [DeliveryController::class,'history']
             );
 
+            Route::get(
+                '/supervisor/add-driver',
+                [DeliveryController::class,'driver']
+            );
+            //add drivder
+            Route::post(
+                '/supervisor/storedriver',
+                [DeliveryController::class,'storeDriver']
+            );
+
+            //delete driver
+            Route::get(
+                '/supervisor/delete-driver/{id}',
+                [DeliveryController::class,'deleteDriver']
+            );
+
     });
 
 //cashier
@@ -182,10 +198,10 @@ Route::middleware(['auth','role:manager'])->group(function () {
     );
 
     //Update user
-   // Route::post(
-     //   '/manager/update-user/{id}',
-       // [ManagerController::class, 'updateUser']
-    //);
+    Route::post(
+        '/manager/update-user/{id}',
+        [ManagerController::class, 'updateUser']
+    );
 
     //delete user
     Route::get(
@@ -236,5 +252,31 @@ Route::middleware(['auth','role:manager'])->group(function () {
     Route::get(
     '/manager/driver-report',
     [ManagerController::class, 'driverReport'])->name('manager.driver.report');
+
+    // PRODUCTS
+    Route::get(
+        '/manager/product',
+        [ManagerController::class, 'product']
+    );
+
+    Route::post(
+        '/manager/save-product',
+        [ManagerController::class, 'saveProduct']
+     );
+
+     Route::get(
+        '/manager/edit_product/{id}',
+        [ManagerController::class, 'editProduct']
+     );
+
+     Route::post(
+        '/manager/update_product/{id}', 
+        [ManagerController::class, 'updateproduct']
+    );
+
+    Route::get(
+        '/manager/delete_product/{id}',
+        [ManagerController::class, 'deleteproduct']
+    );
 
 });

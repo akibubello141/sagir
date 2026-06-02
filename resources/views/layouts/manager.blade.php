@@ -21,6 +21,10 @@
                 <i class="bi bi-truck"></i> Users
             </a>
 
+            <a href="/manager/product">
+                <i class="bi bi-box-seam"></i> Products
+            </a>
+
              <a href="/manager/settings">
                 <i class="bi bi-box-seam"></i> Settings
             </a>
@@ -31,10 +35,6 @@
 
             <a href="/manager/report">
                 <i class="bi bi-bar-chart"></i> Reports
-            </a>
-
-            <a href="/manager/backup">
-                <i class="bi bi-download"></i> Backup
             </a>
 
             <a href="/logout">

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.cashier')
 
 @section('content')
 
@@ -33,59 +33,27 @@ Select Delivery
 @foreach($deliveries as $delivery)
 
 <option value="{{ $delivery->id }}">
-Delivery #{{ $delivery->id }}
--
-{{ $delivery->driver->name }}
+Delivery #{{ $delivery->id }}-{{ $delivery->driver->name }}
 </option>
-
 @endforeach
-
 </select>
-
 </div>
 
 <div class="mb-3">
-
-<label>Quantity Returned</label>
-
-<input
-type="number"
-name="quantity_returned"
-class="form-control"
-required>
-
+    <label>Quantity Returned</label>
+    <input type="number" name="quantity_returned" class="form-control" required>
+</div>
+<div class="mb-3">
+    <label>Cash Collected (₦)</label>
+    <input type="number" step="0.01" name="cash_collected" class="form-control" required>
 </div>
 
 <div class="mb-3">
-
-<label>Cash Collected (₦)</label>
-
-<input
-type="number"
-step="0.01"
-name="cash_collected"
-class="form-control"
-required>
-
+    <label>Remarks</label>
+    <textarea name="remarks" class="form-control"></textarea>
 </div>
 
-<div class="mb-3">
-
-<label>Remarks</label>
-
-<textarea
-name="remarks"
-class="form-control"></textarea>
-
-</div>
-
-<button
-class="btn btn-success">
-
-Submit Return
-
-</button>
-
+<button class="btn btn-success">Submit Return</button>
 </form>
 
 </div>

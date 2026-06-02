@@ -28,12 +28,15 @@ class SupervisorController extends Controller
             'low_stock_limit'
         )->count();
 
+        $totalDrivers = \App\Models\Driver::count();
+
         return view(
             'supervisor.dashboard',
             compact(
                 'products',
                 'todaySales',
-                'lowStock'
+                'lowStock',
+                'totalDrivers'
             )
         );
     }

@@ -13,24 +13,27 @@
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
 
-            <a href="#">
+            <a href="/supervisor/load-products">
+                <i class="bi bi-truck"></i> Load Products
+            </a>
+
+             <a href="/supervisor/stock">
+                <i class="bi bi-box-seam"></i> Products
+            </a>
+
+             <a href="/supervisor/add-driver">
                 <i class="bi bi-truck"></i> Driver
             </a>
 
-            <a href="/supervisor/load-products">
-                <i class="bi bi-truck"></i> Load Products
+            <a href="/supervisor/returns">
+                <i class="bi bi-arrow-return-left"></i> Returns & Damages
             </a>
 
             <a href="/supervisor/delivery-history">
                 <i class="bi bi-truck"></i> Delivery History
             </a>
 
-             <a href="/supervisor/stock">
-                <i class="bi bi-box-seam"></i> Products
-            </a>
-            <a href="/supervisor/returns">
-                <i class="bi bi-arrow-return-left"></i> Returns & Damages
-            </a>
+            
             <a href="/supervisor/report">
                 <i class="bi bi-bar-chart"></i> Reports
             </a>
