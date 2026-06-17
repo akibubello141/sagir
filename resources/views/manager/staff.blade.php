@@ -3,11 +3,11 @@
 @section('content')
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>User  Management</h3>
+        <h3>Staff Management</h3>
 
-        <!-- Add user Button -->
+        <!-- Add Staff Button -->
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
-            + Add User
+            + Add Staff
         </button>
     </div>
 
@@ -85,7 +85,7 @@
 
         <div class="modal-footer">
           <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button class="btn btn-primary">Save User</button>
+          <button class="btn btn-primary">Save Staff</button>
         </div>
 
       </form>

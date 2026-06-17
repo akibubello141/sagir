@@ -146,8 +146,11 @@ public function credit()
         ->where('payment_method', 'credit')
         ->latest()
         ->get();
+        $total = $creditSales->sum(function ($sale) {
+            return $sale->items->sum('subtotal');
+        });
 
-    return view('cashier.credit', compact('creditSales'));
+    return view('cashier.credit', compact('creditSales', 'total'));
 }
 
 //update payment method for credit sales

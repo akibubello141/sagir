@@ -24,6 +24,10 @@
             <a href="/manager/product">
                 <i class="bi bi-box-seam"></i> Products
             </a>
+            
+            <a href="/manager/staff">
+                <i class="bi bi-person"></i> Staff
+            </a>
 
              <a href="/manager/settings">
                 <i class="bi bi-box-seam"></i> Settings
