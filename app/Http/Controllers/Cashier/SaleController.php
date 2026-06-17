@@ -138,4 +138,26 @@ class SaleController extends Controller
         )
     );
 }
+
+//credit sales
+public function credit()
+{
+    $creditSales = Sale::with('items.product', 'customer')
+        ->where('payment_method', 'credit')
+        ->latest()
+        ->get();
+
+    return view('cashier.credit', compact('creditSales'));
+}
+
+//update payment method for credit sales
+public function updatePaymentMethod(Request $request, $id)
+{
+    $sale = Sale::findOrFail($id);
+    $sale->update(['payment_method' => $request->payment_method]);  
+    return redirect()->back()->with('success', 'Payment method updated successfully.');
+
+}
+
+
 }

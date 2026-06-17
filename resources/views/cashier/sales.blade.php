@@ -89,6 +89,7 @@
                             <option value="cash">Cash</option>
                             <option value="transfer">Transfer</option>
                             <option value="pos">POS</option>
+                            <option value="credit">Credit</option>
                         </select>
                     </div>
 

@@ -21,6 +21,10 @@
                  <i class="bi bi-truck"></i> Driver Returns
             </a>
 
+            <a href="/cashier/credit">
+                <i class="bi bi-credit-card"></i> Credit Sales
+            </a>
+
             <a href="/cashier/customers">
                 <i class="bi bi-person"></i> Customers
             </a>

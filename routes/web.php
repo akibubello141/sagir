@@ -153,21 +153,22 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
     Route::post('/cashier/customers/store', [CustomerController::class, 'store']);
 
     // REPORT
-    Route::get(
-        '/cashier/report',
-        [SaleController::class, 'report']
+    Route::get('/cashier/report',[SaleController::class, 'report']
     );
 
     //DELIVARY RETURNS
-    Route::get(
-        '/cashier/driver-return',
-        [DeliveryReturnController::class,'create']
+    Route::get('/cashier/driver-return',[DeliveryReturnController::class,'create']
     );
 
-    Route::post(
-        '/cashier/driver-return',
-        [DeliveryReturnController::class,'store']
+    Route::post('/cashier/driver-return',[DeliveryReturnController::class,'store']
     );
+
+    //CREDIT SALES
+    Route::get('/cashier/credit',[SaleController::class,'credit']
+    );
+
+    //update payment method for credit sales
+    Route::post('/cashier/credit/update-payment-method/{id}', [SaleController::class, 'updatePaymentMethod'])->name('cashier.credit.updatePaymentMethod');  
 });
 
 

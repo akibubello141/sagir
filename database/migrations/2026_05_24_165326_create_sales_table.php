@@ -29,7 +29,8 @@ return new class extends Migration
             $table->enum('payment_method', [
                 'cash',
                 'transfer',
-                'pos'
+                'pos',
+                'credit',
              ]);
 
             $table->timestamps();
