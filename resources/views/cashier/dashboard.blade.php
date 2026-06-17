@@ -12,16 +12,16 @@
             <div class="card bg-success text-white shadow">
                 <div class="card-body">
                     <h5>Today's Sales</h5>
-                    <h2>₦{{ number_format($todaySales,2) }}</h2>
+                    <h2>₦{{ number_format($todayAmont,2) }}</h2>
                 </div>
             </div>
         </div>
 
          <div class="col-md-3 p-2">
-            <div class="card bg-success text-white shadow">
+            <div class="card bg-primary text-white shadow">
                 <div class="card-body">
                     <h5>Customers</h5>
-                    <h2>NO.{{ $customers }}</h2>
+                    <h2>{{ $customers }}</h2>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
      @foreach($products as $product)
 
         <div class="col-md-3 p-2">
-            <div class="card bg-success text-white shadow">
+            <div class="card bg-warning text-white shadow">
                 <div class="card-body ">
                     <h5>{{ $product->name }} (<strong>{{ $product->stock_quantity }}</strong>)</h5>
                     <h2>₦{{ $product->price }}</h2>
@@ -38,6 +38,16 @@
         </div>
 
          @endforeach
+
+           <div class="col-md-3 p-2">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body">
+                    <h5>Delivery</h5>
+                    <h2>{{ $deliveryCount }}</h2>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 

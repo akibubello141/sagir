@@ -8,17 +8,22 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\Customer;
+use App\Models\DeliveryLoad;
+
 
 class SaleController extends Controller
 {
     public function dashboard()
     {
-        $todaySales = Sale::whereDate('created_at', today())->sum('total_amount');
+        $todaySales = Sale::with('items.product')->whereDate('created_at', today())->sum('total_amount');
 
         $products = Product::all();
         $customers = Customer::count('id');
+        $deliveryCount = DeliveryLoad::where('status', 'pending')->count();
+        $todayAmont = SaleItem::whereDate('created_at', today())->sum('subtotal');
 
-        return view('cashier.dashboard', compact('todaySales','products','customers'));
+
+        return view('cashier.dashboard', compact('todaySales','products','customers','deliveryCount','todayAmont'));
     }
 
     public function index()
@@ -58,16 +63,20 @@ class SaleController extends Controller
     public function receipt($id)
     {
         $sale = Sale::with('items.product', 'customer')->findOrFail($id);
-
-        return view('cashier.receipt', compact('sale'));
+        
+        $total = $sale->items->sum('subtotal');
+        return view('cashier.receipt', compact('sale', 'total'));
     }
 
     public function dailySales()
     {
-        $sales = Sale::whereDate('created_at', today())->latest()->get();
+        $sales = Sale::with('items.product', 'customer')->whereDate('created_at', today())->latest()->get();
 
+        $total = $sales->sum(function ($sale) {
+            return $sale->items->sum('subtotal');
+        });
 
-        return view('cashier.daily-sales', compact('sales'));
+        return view('cashier.daily-sales', compact('sales', 'total'));
     }
 
     //report

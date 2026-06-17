@@ -7,21 +7,32 @@
 <div class="card">
 
 <div class="card-body">
-
+    <span class="text-center d-block mb-3">
+        <img src="{{ asset('images/logo.jpeg') }}" alt="Store Logo" style="max-width: 100px;">
+    </span>
     <h2 class="text-center">SALES RECEIPT</h2>
 
+
     <hr>
-
-    <p><strong>Receipt ID:</strong> {{ $sale->id }}</p>
-
-    <p><strong>Customer:</strong>
-        {{ $sale->customer->name ?? 'Walk-in Customer' }}
-    </p>
-
-    <p><strong>Payment:</strong>
-        {{ strtoupper($sale->payment_method) }}
-    </p>
-
+    <table>
+        <tr>
+            <td><strong>Receipt ID:</strong></td>
+            <td>{{ $sale->id }}</td>
+        </tr>
+        <tr>
+            <td><strong>Customer:</strong></td>
+            <td>{{ $sale->customer->name ?? 'Walk-in Customer' }}</td>
+        </tr>
+        <tr>
+            <td><strong>Payment Method:</strong></td>
+            <td>{{ strtoupper($sale->payment_method) }}</td>
+        </tr>
+        <tr>
+            <td><strong>Date:</strong></td>
+            <td>{{ date('F j, Y, g:i A', strtotime($sale->created_at)) }}</td>
+        </tr>
+    </table>
+    
     <table class="table table-bordered">
 
         <thead>
@@ -51,7 +62,7 @@
     </table>
 
     <h3 class="text-end">
-        Total: ₦{{ number_format($sale->total_amount,2) }}
+        Total: ₦{{ number_format($total,2) }}
     </h3>
 
     <button onclick="window.print()" class="btn btn-dark">

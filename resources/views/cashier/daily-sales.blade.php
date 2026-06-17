@@ -8,10 +8,11 @@
 
 <thead>
 <tr>
-    <th>Amount</th>
+    <th>Customer</th>
+    <th>Quantity</th>
+    <th>Total</th>
     <th>Payment</th>
     <th>Date</th>
-    <th>Receipt</th>
     <th>Action</th>
 </tr>
 </thead>
@@ -21,10 +22,11 @@
 @foreach($sales as $sale)
 
 <tr>
-    <td>₦{{ $sale->total_amount }}</td>
+    <td>{{ $sale->customer->name ?? 'Walk-in Customer' }}</td>
+    <td>{{ $sale->items->sum('quantity') }}</td>
+    <td>₦{{ number_format($sale->items->sum('subtotal'), 2) }}</td>
     <td>{{ strtoupper($sale->payment_method) }}</td>
     <td>{{ $sale->created_at }}</td>
-    <td>#{{ $sale->id }}</td>
     <td><a href="/cashier/receipt/{{ $sale->id }}">Print</a></td>
 </tr>
 
@@ -33,5 +35,7 @@
 </tbody>
 
 </table>
-
+    <h3 class="text-end">
+        Total: ₦{{ number_format($total,2) }}
+    </h3>
 @endsection

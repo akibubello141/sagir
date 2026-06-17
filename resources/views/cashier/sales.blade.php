@@ -178,7 +178,6 @@ function renderCart()
 
     document.getElementById('totalInput').value = total;
 }
-
 </script>
 
 @endsection
