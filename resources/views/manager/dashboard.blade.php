@@ -29,7 +29,7 @@
 <div class="col-md-3">
 <div class="card bg-primary text-white">
 <div class="card-body">
-<h5>Profit</h5>
+<h5>Remaining Amount</h5>
 <h2>₦{{ number_format($profit,2) }}</h2>
 </div>
 </div>
