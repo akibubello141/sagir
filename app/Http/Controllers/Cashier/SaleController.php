@@ -83,44 +83,49 @@ class SaleController extends Controller
     public function report()
 {
     // DAILY SALES
-    $dailySales = \App\Models\Sale::whereDate(
+    $dailySales =Sale::whereDate(
         'created_at',
         today()
     )->sum('total_amount');
 
     // WEEKLY SALES
-    $weeklySales = \App\Models\Sale::whereBetween(
+    $weeklySales = Sale::whereBetween(
         'created_at',
         [now()->startOfWeek(), now()->endOfWeek()]
     )->sum('total_amount');
 
     // MONTHLY SALES
-    $monthlySales = \App\Models\Sale::whereMonth(
+    $monthlySales =Sale::whereMonth(
         'created_at',
         now()->month
     )->sum('total_amount');
 
     // TOTAL SALES COUNT
-    $totalTransactions = \App\Models\Sale::count();
+    $totalTransactions = Sale::count();
 
     // PAYMENT SUMMARY
-    $cashSales = \App\Models\Sale::where(
+    $cashSales = Sale::where(
         'payment_method',
         'cash'
     )->sum('total_amount');
 
-    $transferSales = \App\Models\Sale::where(
+    $transferSales = Sale::where(
         'payment_method',
         'transfer'
     )->sum('total_amount');
 
-    $posSales = \App\Models\Sale::where(
+    $posSales = Sale::where(
         'payment_method',
         'pos'
     )->sum('total_amount');
 
+    $creditSales = Sale::where(
+        'payment_method',
+        'credit'
+    )->sum('total_amount');
+
     // RECENT SALES
-    $recentSales = \App\Models\Sale::latest()
+    $recentSales = Sale::latest()
         ->take(10)
         ->get();
 
@@ -134,6 +139,7 @@ class SaleController extends Controller
             'cashSales',
             'transferSales',
             'posSales',
+            'creditSales',
             'recentSales'
         )
     );

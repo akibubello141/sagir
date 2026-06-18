@@ -17,20 +17,16 @@
                 <i class="bi bi-cart"></i> Expenses
             </a>
 
-            <a href="/manager/users">
+            <a href="{{ route('manager.users.index') }}">
                 <i class="bi bi-truck"></i> Users
             </a>
 
-            <a href="/manager/product">
+            <a href="{{route('manager.products.index')}}">
                 <i class="bi bi-box-seam"></i> Products
             </a>
             
-            <a href="/manager/staff">
+            <a href="{{ route('manager.staff.index') }}">
                 <i class="bi bi-person"></i> Staff
-            </a>
-
-             <a href="/manager/settings">
-                <i class="bi bi-box-seam"></i> Settings
             </a>
 
             <a href="/manager/driver-report">

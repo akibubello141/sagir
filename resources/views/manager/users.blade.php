@@ -33,8 +33,8 @@
 <td>{{ $user->email }}</td>
 <td>{{ strtoupper($user->role) }}</td>
 <td>
-  <a href="/manager/edit-user/{{ $user->id }}" class="btn btn-sm btn-outline-warning">edit</a>
-  <a href="/manager/delete-user/{{ $user->id }}" class="btn btn-sm btn-outline-danger">Delete</a>
+  <a href="{{ route('manager.users.edit', ['id' => $user->id]) }}" class="btn btn-sm btn-outline-warning">edit</a>
+  <a href="{{ route('manager.users.delete', ['id' => $user->id]) }}" class="btn btn-sm btn-outline-danger">Delete</a>
 </td>
 </tr>
 
@@ -47,7 +47,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <form method="POST" action="/manager/save-user">
+      <form method="POST" action="{{ route('manager.users.save') }}">
         @csrf
 
         <div class="modal-header">

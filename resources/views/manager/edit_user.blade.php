@@ -12,7 +12,7 @@
                         </div>
                     @endif
     
-      <form method="POST" action="/manager/update-user/{{ $user->id }}">
+      <form method="POST" action="{{ route('manager.users.update', ['id' => $user->id]) }}">
         @csrf
 
         <div class="modal-body">

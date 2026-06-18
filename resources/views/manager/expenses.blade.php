@@ -30,7 +30,7 @@
         @foreach($expenses as $expense)
         <tr class="table-light">
             <td>{{ $expense->title }}</td>
-            <td>${{ number_format($expense->amount, 2) }}</td>
+            <td>₦{{ number_format($expense->amount, 2) }}</td>
             <td>{{ $expense->description }}</td>
             <td>{{ $expense->expense_date }}</td>
         </tr>

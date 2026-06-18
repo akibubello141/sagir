@@ -35,8 +35,8 @@
 <td>{{ $product->stock_quantity }}</td>
 <td>{{ $product->low_stock_limit }}</td>
 <td>
-    <a href="/manager/edit_product/{{ $product->id }}" class="btn btn-sm btn-outline-primary">Edit</a>
-    <a href="/manager/delete_product/{{ $product->id }}" class="btn btn-sm btn-outline-danger">Delete</a>
+    <a href="{{ route('manager.products.edit', $product->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+    <a href="{{ route('manager.products.delete', $product->id) }}" class="btn btn-sm btn-outline-danger">Delete</a>
 </td>
 </tr>
 
@@ -49,7 +49,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <form method="POST" action="/manager/save-product">
+      <form method="POST" action="{{ route('manager.products.save') }}">
         @csrf
 
         <div class="modal-header">

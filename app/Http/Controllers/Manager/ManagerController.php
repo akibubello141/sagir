@@ -13,6 +13,7 @@ use App\Models\Expense;
 use App\Models\SystemSetting;
 use App\Models\ProductionRecord;
 use App\Models\SaleItem;
+use App\Models\Staff;
 
 
 
@@ -85,76 +86,6 @@ class ManagerController extends Controller
         );
     }
 
-    // USERS PAGE
-    public function users()
-    {
-        $users = User::latest()->get();
-
-        return view(
-            'manager.users',
-            compact('users')
-        );
-    }
-
-    // CREATE USER
-    public function saveUser(Request $request)
-    {
-      
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => $request->role,
-        ]);
-
-       
-
-        return back()->with(
-            'success',
-            'User created successfully'
-        );
-    }
-
-    // EDIT USER
-    public function editUser($id)
-    {
-        $user = User::findOrFail($id);
-
-        return view(
-            'manager.edit_user',
-            compact('user')
-        );
-    }
-
-    // UPDATE USER
-    public function updateUser(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => $request->role,
-        ]);
-
-       $users = User::latest()->get();
-
-        return view(
-            'manager.users',
-            compact('users')
-        );
-    }
-
-    //delete user
-    public function deleteUser($id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();    
-        return back()->with(
-            'success',
-            'User deleted successfully'
-        );
-    }
 
     // EXPENSES PAGE
     public function expenses()
@@ -295,68 +226,7 @@ class ManagerController extends Controller
             );
         }
 
-        // PRODUCTS PAGE
-        public function product()
-        {
-            $products = Product::latest()->get();
-
-            return view(
-                'manager.product',
-                compact('products')
-            );
-        }
-
-        // SAVE PRODUCT
-        public function saveProduct(Request $request)
-        {
-            Product::create([
-                'name' => $request->name,
-                'price' => $request->price,
-                'stock_quantity' => $request->stock_quantity,
-                'low_stock_limit' => $request->lower_stock_quantity,
-            ]);
-
-            return back()->with('success', 'Product added');
-        }
-
-        // EDIT PRODUCT
-        public function editProduct($id)
-        {
-            $product = Product::findOrFail($id);
-
-            return view('manager.edit_product', compact('product'));
-        }
-
-        //UPDATE PRODUCT
-        public function updateproduct(Request $request, $id)
-        {
-            $product = product::findOrFail($id);
-            $product->update([
-                'name' => $request->name,
-                'price' => $request->price,
-                'stock_quantity' => $request->stock_quantity,
-                'low_stock_limit' => $request->lower_stock_quantity,
-            ]);
-
-            $products = Product::latest()->get();
-
-            return view(
-                'manager.product',
-                compact('products')
-            );
-        }
+     
 
 
-        // DELETE PRODUCT
-        public function deleteproduct($id)
-        {
-            $product=product::findOrfail($id);
-            $product->delete();    
-           $products = Product::latest()->get();
-
-            return view(
-                'manager.product',
-                compact('products')
-            );
-        }
 }

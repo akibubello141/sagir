@@ -9,8 +9,9 @@ use App\Http\Controllers\Cashier\SaleController;
 use App\Http\Controllers\Cashier\CustomerController;
 use App\Http\Controllers\Supervisor\DeliveryController;
 use App\Http\Controllers\Cashier\DeliveryReturnController;
-
-
+use App\Http\Controllers\Manager\StaffController;
+use App\Http\Controllers\Manager\ProductController;
+use App\Http\Controllers\Manager\UserController;
 
 
 Route::get('/', function () {
@@ -186,35 +187,7 @@ Route::middleware(['auth','role:manager'])->group(function () {
         [ManagerController::class, 'dash']
     );
 
-    // USERS
-    Route::get(
-        '/manager/users',
-        [ManagerController::class, 'users']
-    );
-
-    //Edit user
-    Route::get(
-        '/manager/edit-user/{id}',
-        [ManagerController::class, 'editUser']
-    );
-
-    //Update user
-    Route::post(
-        '/manager/update-user/{id}',
-        [ManagerController::class, 'updateUser']
-    );
-
-    //delete user
-    Route::get(
-        '/manager/delete-user/{id}',
-        [ManagerController::class, 'deleteUser']
-    );
-
-    //save user
-    Route::post(
-        '/manager/save-user',
-        [ManagerController::class, 'saveUser']
-    );
+  
 
     // EXPENSES
     Route::get(
@@ -245,39 +218,48 @@ Route::middleware(['auth','role:manager'])->group(function () {
     );
 
     //report
-    Route::get(
-    '/manager/report',
-    [ManagerController::class, 'report'])->name('manager.report');
+    Route::get('/manager/report',[ManagerController::class, 'report'])->name('manager.report');
 
     //DRIVER RETURNS
-    Route::get(
-    '/manager/driver-report',
-    [ManagerController::class, 'driverReport'])->name('manager.driver.report');
+    Route::get('/manager/driver-report',[ManagerController::class, 'driverReport'])->name('manager.driver.report');
 
-    // PRODUCTS
-    Route::get(
-        '/manager/product',
-        [ManagerController::class, 'product']
-    );
+   
+    Route::name('manager.')
+    ->prefix('manager')
+    ->group(function () {
 
-    Route::post(
-        '/manager/save-product',
-        [ManagerController::class, 'saveProduct']
-     );
+          // users routes
+          Route::prefix('users')
+          ->name('users.')
+          ->group(function () {
+              Route::get('/', [UserController::class, 'users'])->name('index');
+              Route::get('/edit/{id}', [UserController::class, 'editUser'])->name('edit');
+              Route::post('/update/{id}', [UserController::class, 'updateUser'])->name('update');
+              Route::get('/delete/{id}', [UserController::class, 'deleteUser'])->name('delete');
+              Route::post('/save', [UserController::class, 'saveUser'])->name('save');
+          });
 
-     Route::get(
-        '/manager/edit_product/{id}',
-        [ManagerController::class, 'editProduct']
-     );
+        // products routes
+        Route::prefix('products')
+        ->name('products.')
+        ->group(function () {
+            Route::get('/', [ProductController::class, 'product'])->name('index');
+            Route::post('/save', [ProductController::class, 'saveProduct'])->name('save');
+            Route::get('/edit/{id}', [ProductController::class, 'editProduct'])->name('edit');
+            Route::post('/update/{id}', [ProductController::class, 'updateProduct'])->name('update');
+            Route::get('/delete/{id}', [ProductController::class, 'deleteProduct'])->name('delete');
+        });
 
-     Route::post(
-        '/manager/update_product/{id}', 
-        [ManagerController::class, 'updateproduct']
-    );
-
-    Route::get(
-        '/manager/delete_product/{id}',
-        [ManagerController::class, 'deleteproduct']
-    );
+        // staff routes
+        Route::prefix('staff')
+        ->name('staff.')
+        ->group(function () {
+            Route::get('/', [StaffController::class, 'staff'])->name('index');
+            Route::post('/save', [StaffController::class, 'save'])->name('save');
+            Route::get('/edit/{id}', [StaffController::class, 'edit'])->name('edit');
+            Route::post('/update/{id}', [StaffController::class, 'update'])->name('update');
+            Route::get('/delete/{id}', [StaffController::class, 'delete'])->name('delete');    
+        });
+    });
 
 });

@@ -76,40 +76,40 @@ Print Report
 
 <div class="row mt-4">
 
-<div class="col-md-4">
-<div class="card">
-<div class="card-body text-center">
-
-<h5>Cash Payments</h5>
-
-<h2>₦{{ number_format($cashSales,2) }}</h2>
-
-</div>
-</div>
+<div class="col-md-3">
+    <div class="card">
+        <div class="card-body text-center">
+            <h5>Cash Payments</h5>
+            <h2>₦{{ number_format($cashSales,2) }}</h2>
+        </div>
+    </div>
 </div>
 
-<div class="col-md-4">
-<div class="card">
-<div class="card-body text-center">
-
-<h5>Transfer Payments</h5>
-
-<h2>₦{{ number_format($transferSales,2) }}</h2>
-
-</div>
-</div>
+<div class="col-md-3">
+    <div class="card">
+        <div class="card-body text-center">
+            <h5>Transfer Payments</h5>
+            <h2>₦{{ number_format($transferSales,2) }}</h2>
+        </div>
+    </div>
 </div>
 
-<div class="col-md-4">
-<div class="card">
-<div class="card-body text-center">
-
-<h5>POS Payments</h5>
-
-<h2>₦{{ number_format($posSales,2) }}</h2>
-
+<div class="col-md-3">
+    <div class="card">
+        <div class="card-body text-center">
+            <h5>POS Payments</h5>
+            <h2>₦{{ number_format($posSales,2) }}</h2>
+        </div>
+    </div>
 </div>
-</div>
+
+<div class="col-md-3">
+    <div class="card">
+        <div class="card-body text-center">
+            <h5>Credit Payments</h5>
+            <h2>₦{{ number_format($creditSales,2) }}</h2>
+        </div>
+    </div>
 </div>
 
 </div>
@@ -193,13 +193,15 @@ data:{
 labels:[
 'Cash',
 'Transfer',
-'POS'
+'POS',
+'Credit'
 ],
 datasets:[{
 data:[
 {{ $cashSales }},
 {{ $transferSales }},
-{{ $posSales }}
+{{ $posSales }},
+{{ $creditSales }}
 ]
 }]
 }

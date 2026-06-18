@@ -22,19 +22,23 @@
 <tr>
 <th>Name</th>
 <th>Email</th>
+<th>Phone</th>
 <th>Role</th>
+<th>Address</th>
 <th>Action</th>
 </tr>
 
-@foreach($users as $user)
+@foreach($staff as $staff)
 
 <tr>
-<td>{{ $user->name }}</td>
-<td>{{ $user->email }}</td>
-<td>{{ strtoupper($user->role) }}</td>
+<td>{{ $staff->name }}</td>
+<td>{{ $staff->email }}</td>
+<td>{{ $staff->phone }}</td>
+<td>{{ strtoupper($staff->role) }}</td>
+<td>{{ $staff->address }}</td>
 <td>
-  <a href="/manager/edit-user/{{ $user->id }}" class="btn btn-sm btn-outline-warning">edit</a>
-  <a href="/manager/delete-user/{{ $user->id }}" class="btn btn-sm btn-outline-danger">Delete</a>
+  <a href="{{ route('manager.staff.edit', ['id' => $staff->id]) }}" class="btn btn-sm btn-outline-warning">edit</a>
+  <a href="{{ route('manager.staff.delete', ['id' => $staff->id]) }}" class="btn btn-sm btn-outline-danger">Delete</a>
 </td>
 </tr>
 
@@ -42,16 +46,16 @@
 
 </table>
 
-<!-- 🟢 ADD USER MODAL -->
+<!-- 🟢 ADD Staff MODAL -->
 <div class="modal fade" id="addUserModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <form method="POST" action="/manager/save-user">
+    <form method="POST" action="{{ route('manager.staff.save') }}">
         @csrf
 
         <div class="modal-header">
-          <h5 class="modal-title">Add New User</h5>
+          <h5 class="modal-title">Add New Staff</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
 
@@ -68,18 +72,19 @@
             </div>
 
             <div class="mb-2">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control" required>
+               <label for="role">Role</label>
+               <input type="text" name="role" class="form-control" required>
             </div>
 
             <div class="mb-2">
-                <label>Role</label>
-                <select name="role" class="form-control" required>
-                    <option value="cashier">CASHIER</option>
-                    <option value="supervisor">SUPERVISOR</option>
-                    <option value="manager">MANAGER</option>
-                </select>
+              <label for="phone">Phone</label>
+              <input type="text" name="phone" class="form-control">
             </div>
+
+             <div>
+              <label for="address">Address</label>
+              <input type="text" name="address" class="form-control">
+             </div>
 
         </div>
 
