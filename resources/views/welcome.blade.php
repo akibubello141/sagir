@@ -239,7 +239,7 @@
 
             <!-- TITLE -->
             <h1 class="company-title">
-                Sagir Interpress Nigeria Ltd
+                Sagir Enterprises Nigeria Ltd
             </h1>
 
             <!-- TEXT -->
