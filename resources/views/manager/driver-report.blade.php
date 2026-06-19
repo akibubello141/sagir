@@ -120,7 +120,7 @@
                 <th>Sold</th>
                 <th>Expected</th>
                 <th>Cash Collected</th>
-                <th>Difference</th>
+                <th>Credit</th>
                 <th>Date</th>
             </tr>
         </thead>
