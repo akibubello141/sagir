@@ -87,45 +87,4 @@ class DeliveryController extends Controller
             );
         }
 
-        //driver
-        public function driver()
-        {
-            $drivers = Driver::all();
-
-            return view(
-                'supervisor.add-driver',
-                compact('drivers')
-            );
-        }
-
-        public function storeDriver(Request $request)
-        {
-            Driver::create([
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'vehicle_number' => $request->vehicle_number,
-            ]);
-
-            return redirect()
-                ->back()
-                ->with(
-                    'success',
-                    'Driver added successfully.'
-                );
-        }
-
-        //delete driver
-        public function deleteDriver($id)
-        {
-            $driver = Driver::findOrFail($id);
-            $driver->delete();
-
-            return redirect()
-                ->back()
-                ->with(
-                    'success',
-                    'Driver deleted successfully.'
-                );
-                
-                }
 }

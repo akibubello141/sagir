@@ -119,22 +119,6 @@ Route::get('/logout', [AuthController::class, 'logout']);
             [DeliveryController::class,'history']
             );
 
-            Route::get(
-                '/supervisor/add-driver',
-                [DeliveryController::class,'driver']
-            );
-            //add drivder
-            Route::post(
-                '/supervisor/storedriver',
-                [DeliveryController::class,'storeDriver']
-            );
-
-            //delete driver
-            Route::get(
-                '/supervisor/delete-driver/{id}',
-                [DeliveryController::class,'deleteDriver']
-            );
-
     });
 
 //cashier
@@ -154,10 +138,6 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
 
     // DAILY SALES
     Route::get('/cashier/daily-sales', [SaleController::class, 'dailySales']);
-
-    // CUSTOMERS
-    Route::get('/cashier/customers', [CustomerController::class, 'index']);
-    Route::post('/cashier/customers/store', [CustomerController::class, 'store']);
 
     // REPORT
     Route::get('/cashier/report',[SaleController::class, 'report']
@@ -186,8 +166,17 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
         ->group(function () {    
             Route::get('/',[ExpensesController::class, 'expenses'])->name('index');
             Route::post('save',[ExpensesController::class, 'saveExpense'])->name('save');
-
           });
+        //customers
+        Route::prefix('customer')
+        ->name('customer.')
+        ->group(function(){
+            Route::get('/',[CustomerController::class,'show'])->name('index');
+            Route::post('/save',[CustomerController::class,'store'])->name('store');
+            Route::get('/edit/{id}',[CustomerController::class,'edit'])->name('edit');
+            Route::post('/update/{id}',[CustomerController::class,'update'])->name('update');
+            Route::get('/delete/{id}',[CustomerController::class,'delete'])->name('delete');
+        });
 
     });
 });

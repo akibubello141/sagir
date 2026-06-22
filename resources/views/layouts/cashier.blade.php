@@ -17,16 +17,12 @@
                 <i class="bi bi-cart"></i> New Sale
             </a>
 
-            <a href="/cashier/driver-return">
-                 <i class="bi bi-truck"></i> Driver Returns
-            </a>
-
             <a href="/cashier/credit">
                 <i class="bi bi-credit-card"></i> Credit Sales
             </a>
 
-            <a href="/cashier/customers">
-                <i class="bi bi-person"></i> Customers
+            <a href="{{ route('cashier.customer.index') }}">
+                 <i class="bi bi-person"></i> Drivers
             </a>
 
             <a href="{{ route('cashier.expenses.index') }}">
