@@ -21,6 +21,10 @@
                 <i class="bi bi-credit-card"></i> Credit Sales
             </a>
 
+            <a href="{{ route('cashier.returns.index') }}">
+                <i class="bi bi-arrow-return-left"></i> Returns & Damages
+            </a>
+
             <a href="{{ route('cashier.customer.index') }}">
                  <i class="bi bi-person"></i> Drivers
             </a>

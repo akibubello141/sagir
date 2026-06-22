@@ -11,6 +11,7 @@ use App\Http\Controllers\Cashier\SaleController;
 use App\Http\Controllers\Cashier\CustomerController;
 use App\Http\Controllers\Cashier\DeliveryReturnController;
 use App\http\Controllers\cashier\ExpensesController;
+use App\http\controllers\cashier\ReturnDamageController;
 
 use App\Http\Controllers\Manager\StaffController;
 use App\Http\Controllers\Manager\ProductController;
@@ -176,6 +177,13 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
             Route::get('/edit/{id}',[CustomerController::class,'edit'])->name('edit');
             Route::post('/update/{id}',[CustomerController::class,'update'])->name('update');
             Route::get('/delete/{id}',[CustomerController::class,'delete'])->name('delete');
+        });
+        //returns & damage
+        Route::prefix('returns')
+        ->name('returns.')
+        ->group(function(){
+            Route::get('/',[ReturnDamageController::class,'returns'])->name('index');
+            Route::post('/store',[ReturnDamageController::class,'storeReturn'])->name('store');
         });
 
     });
