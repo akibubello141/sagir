@@ -13,10 +13,6 @@
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
 
-            <a href="/manager/expenses">
-                <i class="bi bi-cart"></i> Expenses
-            </a>
-
             <a href="{{ route('manager.users.index') }}">
                 <i class="bi bi-truck"></i> Users
             </a>

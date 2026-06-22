@@ -29,6 +29,10 @@
                 <i class="bi bi-person"></i> Customers
             </a>
 
+            <a href="{{ route('cashier.expenses.index') }}">
+                <i class="bi bi-cash-stack"></i> Expenses
+            </a>
+
             <a href="/cashier/daily-sales">
                  <i class="bi bi-bar-chart"></i> Daily Sales
             </a>

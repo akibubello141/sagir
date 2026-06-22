@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.cashier')
 
 @section('content')
 
@@ -37,13 +37,14 @@
         @endforeach
     </tbody>
 </table>
+<h2>Expense Total: ₦{{ number_format($expenses->sum('amount'), 2) }}</h2>
 
 <!-- 🟢 ADD USER MODAL -->
 <div class="modal fade" id="addUserModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <form method="POST" action="/manager/save-expense">
+      <form method="POST" action="{{ route('cashier.expenses.save') }}">
         @csrf
 
         <div class="modal-header">

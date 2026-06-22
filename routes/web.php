@@ -3,15 +3,21 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\supervisor\SupervisorController;
-use App\Http\Controllers\Manager\ManagerController;
+use App\Http\Controllers\Supervisor\DeliveryController;
+
+
 use App\Http\Controllers\CashierController;
 use App\Http\Controllers\Cashier\SaleController;
 use App\Http\Controllers\Cashier\CustomerController;
-use App\Http\Controllers\Supervisor\DeliveryController;
 use App\Http\Controllers\Cashier\DeliveryReturnController;
+use App\http\Controllers\cashier\ExpensesController;
+
 use App\Http\Controllers\Manager\StaffController;
 use App\Http\Controllers\Manager\ProductController;
 use App\Http\Controllers\Manager\UserController;
+use App\Http\Controllers\Manager\ManagerController;
+
+
 
 
 Route::get('/', function () {
@@ -170,6 +176,20 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
 
     //update payment method for credit sales
     Route::post('/cashier/credit/update-payment-method/{id}', [SaleController::class, 'updatePaymentMethod'])->name('cashier.credit.updatePaymentMethod');  
+
+   Route::name('cashier.')
+    ->prefix('cashier')
+    ->group(function () {
+        //expenses
+        Route::prefix('expenses')
+        ->name('expenses.')
+        ->group(function () {    
+            Route::get('/',[ExpensesController::class, 'expenses'])->name('index');
+            Route::post('save',[ExpensesController::class, 'saveExpense'])->name('save');
+
+          });
+
+    });
 });
 
 
@@ -187,18 +207,6 @@ Route::middleware(['auth','role:manager'])->group(function () {
         [ManagerController::class, 'dash']
     );
 
-  
-
-    // EXPENSES
-    Route::get(
-        '/manager/expenses',
-        [ManagerController::class, 'expenses']
-    );
-
-    Route::post(
-        '/manager/save-expense',
-        [ManagerController::class, 'saveExpense']
-    );
 
     // SETTINGS
     Route::get(

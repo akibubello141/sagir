@@ -1,6 +1,26 @@
 @extends('layouts.cashier')
 
 @section('content')
+<form method="GET" action="{{ route('manager.report') }}">
+    <div class="row mb-3">
+
+        <div class="col-md-4">
+            <input type="text"
+                   name="search"
+                   class="form-control"
+                   placeholder="Search Driver, Product, Customer..."
+                   value="{{ request('search') }}">
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit"
+                    class="btn btn-primary">
+                Search
+            </button>
+        </div>
+
+    </div>
+</form>
 
 <h3>Daily Sales</h3>
 

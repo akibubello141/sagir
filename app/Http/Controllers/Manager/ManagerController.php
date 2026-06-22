@@ -87,33 +87,7 @@ class ManagerController extends Controller
     }
 
 
-    // EXPENSES PAGE
-    public function expenses()
-    {
-        $expenses = Expense::latest()->get();
-
-        return view(
-            'manager.expenses',
-            compact('expenses')
-        );
-    }
-
-    // SAVE EXPENSE
-    public function saveExpense(Request $request)
-    {
-        Expense::create([
-            'title' => $request->title,
-            'amount' => $request->amount,
-            'description' => $request->description,
-            'expense_date' => $request->expense_date,
-        ]);
-
-        return back()->with(
-            'success',
-            'Expense added'
-        );
-    }
-
+    
     // SETTINGS PAGE
     public function settings()
     {
