@@ -163,7 +163,23 @@ public function credit()
 public function updatePaymentMethod(Request $request, $id)
 {
     $sale = Sale::findOrFail($id);
-    $sale->update(['payment_method' => $request->payment_method]);  
+
+    $part_payment = $request->old_payment + $request->new_payment;
+    $amount = $request->amount;
+
+
+    if($amount == $part_payment){
+        $payment_method = $request->payment_method;
+        
+    }else{
+        $payment_method = 'credit';
+    }
+
+
+    $sale->update([
+        'payment_method' => $payment_method,
+        'part_payment'  => $part_payment,
+        ]);  
     return redirect()->back()->with('success', 'Payment method updated successfully.');
 
 }

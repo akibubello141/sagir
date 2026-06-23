@@ -168,7 +168,7 @@ Low Stock
 
 <tr>
 
-<td>{{ $record->product->name ?? '' }}</td>
+<td>{{ $record->product_id ?? '' }}</td>
 
 <td>{{ $record->quantity_produced }}</td>
 

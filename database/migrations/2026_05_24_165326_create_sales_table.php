@@ -33,6 +33,10 @@ return new class extends Migration
                 'credit',
              ]);
 
+            $table->decimal('part_payment', 10, 2)->default(0);
+
+             
+
             $table->timestamps();
         });
     }

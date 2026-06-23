@@ -17,4 +17,9 @@ class Product extends Model
     {
         return $this->hasMany(SaleItem::class);
     }
+
+    public function productionRecords()
+    {
+        return $this->hasMany(ProductionRecord::class);
+    }
 }

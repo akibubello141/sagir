@@ -10,6 +10,7 @@ use App\Models\ProductionRecord;
 use App\Models\StockMovement;
 use App\Models\SaleCorrection;
 use App\Models\ReturnDamage;
+use App\Models\Driver;
 
 class SupervisorController extends Controller
 {
@@ -28,7 +29,7 @@ class SupervisorController extends Controller
             'low_stock_limit'
         )->count();
 
-        $totalDrivers = \App\Models\Driver::count();
+        $totalDrivers =Driver::count();
 
         return view(
             'supervisor.dashboard',

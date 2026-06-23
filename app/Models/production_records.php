@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductionRecord extends Model
+class production_records extends Model
 {
     //
-    protected $fillable = [
-        'producer_name',
+     protected $fillable = [
+        'poducer_name',
         'supervisor_id',
         'product_id',
         'quantity_produced',
@@ -17,9 +17,10 @@ class ProductionRecord extends Model
         'shifting',
     ];
 
-     public function product()
-{
-    return $this->hasMany(Product::class);
-}
-
+    public function product()
+    {
+        return $this->belongsTo(
+            Product::class
+        );
+    }
 }

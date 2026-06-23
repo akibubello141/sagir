@@ -11,6 +11,7 @@ class Sale extends Model
         'customer_id',
         'total_amount',
         'payment_method',
+        'part_payment',
     ];
 
     public function items()

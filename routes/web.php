@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\supervisor\SupervisorController;
 use App\Http\Controllers\Supervisor\DeliveryController;
 
@@ -184,6 +185,20 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
         ->group(function(){
             Route::get('/',[ReturnDamageController::class,'returns'])->name('index');
             Route::post('/store',[ReturnDamageController::class,'storeReturn'])->name('store');
+        });
+        //stock
+        Route::prefix('stock')
+        ->name('stock.')
+        ->group(function(){
+            Route::get('/',[StockController::class,'stock'])->name('index');
+            Route::post('/add',[StockController::class,'addStock'])->name('add');
+        });
+        //production
+        Route::prefix('production')
+        ->name('production.')
+        ->group(function(){
+            Route::get('/',[StockController::class,'production'])->name('index');
+            Route::post('/save',[StockController::class,'saveProduction'])->name('save');
         });
 
     });

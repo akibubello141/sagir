@@ -6,46 +6,33 @@
 
 <table class="table table-bordered">
 
-<tr>
-    <th>Product</th>
-    <th>Stock</th>
-    <th>Add Stock</th>
-</tr>
+    <tr>
+        <th>Product</th>
+        <th>Stock</th>
+        <th>Add Stock</th>
+    </tr>
 
-@foreach($products as $product)
+    @foreach($products as $product)
 
-<tr>
+    <tr>
+        <td>{{ $product->name }}</td>
+        <td>{{ $product->stock_quantity }}</td>
+        <td>
+            <form method="POST" action="/supervisor/add-stock">
 
-<td>{{ $product->name }}</td>
+            @csrf
 
-<td>{{ $product->stock_quantity }}</td>
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <input type="number" name="quantity" class="form-control mb-2" placeholder="Enter Quantity">
+                <button class="btn btn-success">Add Stock</button>
 
-<td>
+            </form>
 
-<form method="POST" action="/supervisor/add-stock">
+        </td>
 
-@csrf
+    </tr>
 
-<input type="hidden"
-name="product_id"
-value="{{ $product->id }}">
-
-<input type="number"
-name="quantity"
-class="form-control mb-2"
-placeholder="Enter Quantity">
-
-<button class="btn btn-success">
-Add Stock
-</button>
-
-</form>
-
-</td>
-
-</tr>
-
-@endforeach
+    @endforeach
 
 </table>
 

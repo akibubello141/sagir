@@ -33,6 +33,14 @@
                 <i class="bi bi-cash-stack"></i> Expenses
             </a>
 
+            <a href="{{ route('cashier.production.index') }}">
+                <i class="bi bi-box"></i> Productions
+            </a>
+
+            <a href="{{ route('cashier.stock.index') }}">
+                 <i class="bi bi-box-seam"></i> Stock Management        
+            </a>
+
             <a href="/cashier/daily-sales">
                  <i class="bi bi-bar-chart"></i> Daily Sales
             </a>

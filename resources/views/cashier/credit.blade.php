@@ -12,8 +12,10 @@
                     <th>Sale ID</th>
                     <th>Customer</th>
                     <th>Total Amount</th>
+                    <th>payed Amount</th>
                     <th>Date</th>
                     <th>Method</th>
+                    <th>Remianing Balance</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -25,7 +27,8 @@
                     <tr>
                         <td>{{ $sale->id }}</td>
                         <td>{{ $sale->customer ? $sale->customer->name : 'N/A' }}</td>
-                        <td>${{ number_format($sale->items->sum('subtotal'), 2) }}</td>
+                        <td>{{ number_format($sale->items->sum('subtotal'), 2) }}</td>
+                        <td>{{ number_format($sale->part_payment, 2) }}</td>
                         <td>{{ $sale->created_at->format('Y-m-d H:i') }}</td>
                         <form action="{{ route('cashier.credit.updatePaymentMethod', $sale->id) }}" method="post">
                             @csrf
@@ -36,6 +39,9 @@
                                     <option value="pos">POS</option>
                                     <option value="credit" selected>Credit</option>
                                 </select></td>
+                                <input type="number" hidden name="amount" required value="{{ $sale->items->sum('subtotal') }}">
+                                <input type="number" hidden name="old_payment" required value="{{ $sale->part_payment }}">
+                                <td><input type="number" name="new_payment" required class="form-control"></td>
                             <td><button class="btn btn-primary">Pay</button></td>
                         </form>
                         
