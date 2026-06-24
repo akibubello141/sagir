@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('title')
+
+CASHIER
+@endsection
+
 @section('sidebar')
     <!-- Sidebar -->
         <div class="col-md-2 sidebar p-3 bg-blue" id="sidebar">
