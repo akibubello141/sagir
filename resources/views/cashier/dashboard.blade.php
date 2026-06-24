@@ -32,7 +32,7 @@
             <div class="card bg-warning text-white shadow">
                 <div class="card-body ">
                     <h5>{{ $product->name }} (<strong>{{ $product->stock_quantity }}</strong>)</h5>
-                    <h2>₦{{ $product->price }}</h2>
+                    <h2>₦{{ number_format($product->price, 2) }}</h2>
                 </div>
             </div>
         </div>
@@ -42,8 +42,8 @@
            <div class="col-md-3 p-2">
             <div class="card bg-primary text-white shadow">
                 <div class="card-body">
-                    <h5>Delivery</h5>
-                    <h2>{{ $deliveryCount }}</h2>
+                    <h5>Credit</h5>
+                    <h2>₦{{number_format($totalCredit, 2) }}</h2>
                 </div>
             </div>
         </div>
