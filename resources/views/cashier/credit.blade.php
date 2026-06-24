@@ -13,9 +13,10 @@
                     <th>Customer</th>
                     <th>Total Amount</th>
                     <th>payed Amount</th>
+                    <th>Remaining balance</th>
                     <th>Date</th>
                     <th>Method</th>
-                    <th>Remianing Balance</th>
+                    <th>Pay Amount</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -29,19 +30,20 @@
                         <td>{{ $sale->customer ? $sale->customer->name : 'N/A' }}</td>
                         <td>{{ number_format($sale->items->sum('subtotal'), 2) }}</td>
                         <td>{{ number_format($sale->part_payment, 2) }}</td>
+                        <td>{{ number_format($sale->items->sum('subtotal') - $sale->part_payment, 2) }}</td>
                         <td>{{ $sale->created_at->format('Y-m-d H:i') }}</td>
                         <form action="{{ route('cashier.credit.updatePaymentMethod', $sale->id) }}" method="post">
                             @csrf
                                 <td>
                                 <select name="payment_method" required class="form-control">
+                                    <option value="" >selected</option>
                                     <option value="cash">Cash</option>
                                     <option value="transfer">Transfer</option>
                                     <option value="pos">POS</option>
-                                    <option value="credit" selected>Credit</option>
                                 </select></td>
                                 <input type="number" hidden name="amount" required value="{{ $sale->items->sum('subtotal') }}">
                                 <input type="number" hidden name="old_payment" required value="{{ $sale->part_payment }}">
-                                <td><input type="number" name="new_payment" required class="form-control"></td>
+                                <td><input type="number" name="new_payment" max= "{{ number_format($sale->items->sum('subtotal'), 2) }}" required class="form-control" placeholder="Enter Amount"></td>
                             <td><button class="btn btn-primary">Pay</button></td>
                         </form>
                         

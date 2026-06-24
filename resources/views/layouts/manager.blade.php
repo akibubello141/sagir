@@ -24,11 +24,6 @@
             <a href="{{ route('manager.staff.index') }}">
                 <i class="bi bi-person"></i> Staff
             </a>
-
-            <a href="/manager/driver-report">
-                <i class="bi bi-bar-chart"></i> Driver Report
-            </a>
-
             <a href="/manager/report">
                 <i class="bi bi-bar-chart"></i> Reports
             </a>

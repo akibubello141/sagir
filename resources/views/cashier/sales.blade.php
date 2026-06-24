@@ -27,12 +27,12 @@
                         <strong>{{ $product->stock_quantity }}</strong>
                     </p>
 
-                    <button
+                   <button
                         class="btn btn-primary addToCart"
                         data-id="{{ $product->id }}"
                         data-name="{{ $product->name }}"
                         data-price="{{ $product->price }}"
-                    >
+                        data-stock="{{ $product->stock_quantity }}">
                         Add
                     </button>
 
@@ -114,6 +114,7 @@
 let cart = [];
 let total = 0;
 
+// Add product to cart
 document.querySelectorAll('.addToCart').forEach(button => {
 
     button.addEventListener('click', function(){
@@ -121,19 +122,37 @@ document.querySelectorAll('.addToCart').forEach(button => {
         let id = this.dataset.id;
         let name = this.dataset.name;
         let price = parseFloat(this.dataset.price);
+        let stock = parseInt(this.dataset.stock);
 
-        cart.push({
-            id:id,
-            name:name,
-            price:price,
-            qty:1
-        });
+        if(stock <= 0){
+            alert('Product is out of stock');
+            return;
+        }
+
+        let existing = cart.find(item => item.id == id);
+
+        if(existing){
+
+            existing.qty++;
+
+        }else{
+
+            cart.push({
+                id:id,
+                name:name,
+                price:price,
+                qty:1
+            });
+
+        }
 
         renderCart();
+
     });
 
 });
 
+// Render cart
 function renderCart()
 {
     let cartBox = document.getElementById('cartItems');
@@ -144,41 +163,104 @@ function renderCart()
 
     cart.forEach((item,index)=>{
 
-        total += item.price * item.qty;
+        let subtotal = item.price * item.qty;
+
+        total += subtotal;
 
         cartBox.innerHTML += `
-            <div class="border p-2 mb-2">
+        <div class="border p-2 mb-2">
 
-                <strong>${item.name}</strong>
+            <strong>${item.name}</strong><br>
 
-                <br>
+            Price: ₦${item.price}<br>
 
-                ₦${item.price}
+            Qty:
 
-                <input type="hidden"
+            <input
+                type="number"
+                min="1"
+                value="${item.qty}"
+                data-index="${index}"
+                data-price="${item.price}"
+                class="form-control qty-input">
+
+            <br>
+
+            Subtotal:
+            ₦<span>${subtotal}</span>
+
+            <br><br>
+
+            <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                onclick="removeItem(${index})">
+
+                Remove
+
+            </button>
+
+            <input
+                type="hidden"
                 name="products[${index}][id]"
                 value="${item.id}">
 
-                <input type="hidden"
+            <input
+                type="hidden"
                 name="products[${index}][price]"
                 value="${item.price}">
 
-                Qty:
-                <input
-                type="number"
+            <input
+                type="hidden"
                 name="products[${index}][qty]"
                 value="${item.qty}"
-                min="1"
-                class="form-control">
+                class="qty-hidden-${index}">
 
-            </div>
+        </div>
         `;
     });
 
-    document.getElementById('grandTotal').innerText = total;
+    document.getElementById('grandTotal').innerText =
+        total.toFixed(2);
 
-    document.getElementById('totalInput').value = total;
+    document.getElementById('totalInput').value =
+        total.toFixed(2);
+
+    attachQtyEvents();
 }
+
+// Quantity change
+function attachQtyEvents()
+{
+    document.querySelectorAll('.qty-input').forEach(input => {
+
+        input.addEventListener('input', function(){
+
+            let index = this.dataset.index;
+
+            let qty = parseInt(this.value);
+
+            if(qty < 1){
+                qty = 1;
+            }
+
+            cart[index].qty = qty;
+
+            renderCart();
+
+        });
+
+    });
+}
+
+// Remove item
+function removeItem(index)
+{
+    cart.splice(index,1);
+
+    renderCart();
+}
+
 </script>
 
 @endsection

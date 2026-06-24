@@ -1,5 +1,6 @@
 @extends('layouts.cashier')
 
+
 @section('content')
 
 <div class="container-fluid">
@@ -40,7 +41,7 @@
          @endforeach
 
            <div class="col-md-3 p-2">
-            <div class="card bg-primary text-white shadow">
+            <div class="card bg-danger text-white shadow">
                 <div class="card-body">
                     <h5>Credit</h5>
                     <h2>₦{{number_format($totalCredit, 2) }}</h2>

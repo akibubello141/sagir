@@ -61,4 +61,8 @@
             .content{
                 width:100%;
             }
+            a {
+                text-decoration:none;
+                list-style:none;
+            }
         }

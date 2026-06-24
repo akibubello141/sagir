@@ -23,13 +23,22 @@ class ManagerController extends Controller
   public function  dash()
     {
         // TOTAL SALES
-        $totalSales = Sale::sum('total_amount');
+        $totalSales = SaleItem::sum('subtotal');
+
+        // TOTAL SALES CREDIT
+         $creditSales = Sale::with('items.product', 'customer')->where('payment_method', 'credit')
+        ->latest()
+        ->get();
+        $totalCredit = $creditSales->sum(function ($sale) {
+            return $sale->items->sum('subtotal') - $sale->part_payment;
+        });
+
 
         // TOTAL EXPENSES
         $totalExpenses = Expense::sum('amount');
 
         // PROFIT
-        $profit = $totalSales - $totalExpenses;
+        $profit = $totalSales - $totalExpenses - $totalCredit;
 
         // TOTAL PRODUCTS
         $products = Product::count();
@@ -40,6 +49,9 @@ class ManagerController extends Controller
         $production = ProductionRecord::sum(
             'quantity_produced'
         );
+        //TOTAL STAFFS
+
+        $staffs = Staff::count();
 
         // MONTHLY SALES
         $monthlySales = Sale::selectRaw(
@@ -81,7 +93,9 @@ class ManagerController extends Controller
                 'monthlySales',
                 'monthlyExpenses',
                 'productSales',
-                'bestSelling'
+                'bestSelling',
+                'totalCredit',
+                'staffs'
             )
         );
     }
@@ -131,6 +145,9 @@ class ManagerController extends Controller
     public function report(Request $request)
     {
         $query = Sale::query();
+        $saleQuery = Sale::query()->where('payment_method', 'credit');
+        $productionQuery = ProductionRecord::query();
+        $expensesQuery = Expense::query();
 
         if ($request->start_date && $request->end_date) {
 
@@ -138,11 +155,29 @@ class ManagerController extends Controller
                 $request->start_date . ' 00:00:00',
                 $request->end_date . ' 23:59:59'
             ]);
+           $saleQuery->whereBetween('created_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ]);
+             $productionQuery->whereBetween('created_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ]);
+             $expensesQuery->whereBetween('created_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ]);
         }
 
         $sales = $query->latest()->get();
+        $credit = $saleQuery->latest()->get();
+        $productions = $productionQuery->latest()->get();
+        $expenses = $expensesQuery->latest()->get();
 
         $totalSales = $sales->sum('total_amount');
+        $totalCredit = $credit->sum('total_amount');
+        $partPayment = $credit->sum('part_payment');
+        $remainingCredit = $totalCredit - $partPayment;
 
         $totalExpenses = Expense::when(
             $request->start_date,
@@ -170,7 +205,7 @@ class ManagerController extends Controller
             }
         )->sum('quantity_produced');
 
-        $profit = $totalSales - $totalExpenses;
+        $profit = $totalSales - $totalExpenses - $remainingCredit;
 
         return view(
             'manager.report',
@@ -179,7 +214,10 @@ class ManagerController extends Controller
                 'totalSales',
                 'totalExpenses',
                 'profit',
-                'totalProduction'
+                'totalProduction',
+                'remainingCredit',
+                'productions',
+                'expenses'
             )
         );
     }
