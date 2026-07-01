@@ -6,56 +6,100 @@ CASHIER
 @endsection
 
 @section('sidebar')
-    <!-- Sidebar -->
-        <div class="col-md-2 sidebar p-3 bg-blue" id="sidebar">
+   
+<nav class="navbar navbar-expand-lg navbar-white bg-white">
+    <div class="container-fluid">
 
-            <h3 class="text-center mb-4">
-                <!-- LOGO -->
-            <img src="{{ asset('images/logo.jpeg') }}" class="logo logo-icon" alt="Logo" style="width: 100px; height: 50px;">
-            </h3>
+        <a class="navbar-brand p-2" href="#">
+            <img src="{{ asset('images/logo.jpeg') }}"
+                 width="80"
+                 height="50"
+                 alt="Logo">
+                 <span class="p-2">@yield('title')</span>
+           
+        </a>
 
-            <a href="/cashier/dashboard">
-                <i class="bi bi-speedometer2"></i> Dashboard
-            </a>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <a href="/cashier/sales">
-                <i class="bi bi-cart"></i> New Sale
-            </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
 
-            <a href="/cashier/credit">
-                <i class="bi bi-credit-card"></i> Credit Sales
-            </a>
+            <ul class="navbar-nav me-auto">
+                
 
-            <a href="{{ route('cashier.returns.index') }}">
-                <i class="bi bi-arrow-return-left"></i> Returns & Damages
-            </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cashier/dashboard">
+                        Dashboard
+                    </a>
+                </li>
 
-            <a href="{{ route('cashier.customer.index') }}">
-                 <i class="bi bi-person"></i> Drivers
-            </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cashier/sales">
+                        New Sale
+                    </a>
+                </li>
 
-            <a href="{{ route('cashier.expenses.index') }}">
-                <i class="bi bi-cash-stack"></i> Expenses
-            </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('cashier.driver.credit') }}">
+                        Credit Sales
+                    </a>
+                </li>
 
-            <a href="{{ route('cashier.production.index') }}">
-                <i class="bi bi-box"></i> Productions
-            </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('cashier.driver.index') }}">
+                        Daily Sales
+                    </a>
+                </li>
 
-            <a href="{{ route('cashier.stock.index') }}">
-                 <i class="bi bi-box-seam"></i> Stock Management        
-            </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('cashier.customer.index') }}">
+                        Drivers
+                    </a>
+                </li>
 
-            <a href="/cashier/daily-sales">
-                 <i class="bi bi-bar-chart"></i> Daily Sales
-            </a>
-            <a href="/cashier/report">
-                 <i class="bi bi-bar-chart"></i> Sales Report
-            </a>
-    
-            <a href="/logout">
-                <i class="bi bi-box-arrow-right"></i> Logout
-            </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('cashier.production.index') }}">
+                        Productions
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('cashier.driver.report')}}">
+                        Reports
+                    </a>
+                </li>
+
+            </ul>
+
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle"
+                       href="#"
+                       data-bs-toggle="dropdown">
+
+                        {{ Auth::user()->name }}
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+
+                        <li>
+                             <a href="/logout" class="dropdown-item">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </a>
+                        </li>
+                        
+
+                    </ul>
+
+                </li>
+            </ul>
 
         </div>
+
+    </div>
+</nav>
 @endsection

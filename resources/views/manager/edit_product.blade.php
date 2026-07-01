@@ -3,7 +3,7 @@
 <!-- 🟢 ADD PRODUCT MODAL -->
 
 
-      <form method="POST" action="/manager/update_product/{{ $product->id }}">
+      <form method="POST" action="{{ route('manager.products.update', ['id' => $product->id]) }}">
         @csrf
 
         <div class="modal-header">

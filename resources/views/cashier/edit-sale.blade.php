@@ -11,109 +11,99 @@
 
         <div class="card-body">
 
-            <form method="POST" action="{{ route('cashier.driver.save') }}">
+            <form method="POST" action="{{ route('cashier.driver.update', ['id' => $cashierSales->id]) }}">
                 @csrf
 
                 <div class="row">
 
                     <div class="col-md-3 mb-3">
                         <label>Date</label>
-                        <input type="date" name="sales_date" class="form-control">
+                        <input type="text" name="sales_date" value="{{ $cashierSales->sales_date}}"class="form-control" readonly>
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <label>Vehicle</label>
-                        <select name="vehicle" id="" class="form-control">
-                            <option value="0">Select Driver</option>
-                            @foreach($customers as $customer)
-                            <option value="{{$customer->id}}">{{ $customer->name}}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" name = "vehicle" value="{{ $cashierSales->vehicle}}" class="form-control" readonly>
                        
                     </div>
 
                      <div class="col-md-3">
                         <select name="product_id" id="" class="form-control">
-                            <option value="0" >Select Product</option>
-                            @foreach($products as $product)
-                            <option value="{{$product->id}}" data-id="{{ $product->price }}">{{ $product->name}}|Price:{{$product->price }}|Stock:{{ $product->stock_quantity }}</option>
-                            @endforeach
+                            <option value="{{$cashierSales->product->id}}">{{ $cashierSales->product->name}}|Stock:{{ $cashierSales->product->stock_quantity }}</option>
                         </select>
-
-                        <input type="number" id="product_amount"  class="form-control" placeholder="Enter price">
-                       
+                        <input type="number" id="product_amount" value="{{ $cashierSales->product->price}}" class="form-control" placeholder="Enter price" readonly>
                     </div>
 
                     <div class="col-md-3">
                         <label>No of Bags Sold</label>
-                        <input type="number" name="bags_sold" value="0" id="bags_sold" class="form-control">
+                        <input type="number" name="bags_sold" value="{{$cashierSales->bags_sold}}" id="bags_sold" class="form-control" readonly>
                     </div>
 
                     <div class="col-md-3">
                         <label>Total Amount</label>
-                        <input type="number" name="total_amount" value="0" id="total_amount" class="form-control" readonly>
+                        <input type="number" name="total_amount" value="{{$cashierSales->total_amount}}" id="total_amount" class="form-control" readonly>
                     </div>
 
                     <div class="col-md-3">
                         <label>Linkages</label>
-                        <input type="number" name = "linkages" value="0" id="linkages" class="form-control">
+                        <input type="number" name = "linkages" value="{{$cashierSales->linkages}}" id="linkages" class="form-control">
                     </div>
 
                     <div class="col-md-3">
                         <label>Linkage Amount</label>
-                        <input type="number" name = "linkage_amount" value="0" id="linkage_amount" class="form-control" readonly>
+                        <input type="number" name = "linkage_amount" value="{{$cashierSales->linkage_amount}}" id="linkage_amount" class="form-control" readonly>
                     </div>
 
                     <div class="col-md-3">
                         <label>Plus</label>
-                        <input type="number" name = "plus" value="0" id="plus" class="form-control">
+                        <input type="number" name = "plus" value="{{$cashierSales->plus}}" id="plus" class="form-control">
                     </div>
 
                     <div class="col-md-3">
                         <label>Plus Amount</label>
-                        <input type="number" name = "plus_amount" value="0" id="plus_amount" class="form-control" readonly>
+                        <input type="number" name = "plus_amount" value="{{$cashierSales->plus_amount}}" id="plus_amount" class="form-control" readonly>
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <label>Vehicle Fuel</label>
-                        <input type="number" step="0.01" name="vehicle_fuel" value="0" class="form-control">
+                        <input type="number" step="0.01" name="vehicle_fuel" value="{{$cashierSales->vehicle_fuel}}" class="form-control">
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <label>Vehicle Exp</label>
-                        <input type="number" step="0.01" name="vehicle_exp"  value="0" class="form-control">
+                        <input type="number" step="0.01" name="vehicle_exp"  value="{{$cashierSales->vehicle_exp}}" class="form-control">
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <label>Credit</label>
-                        <input type="number" step="0.01" name="credit" value="0" class="form-control">
+                        <input type="number" step="0.01" name="credit" value="{{$cashierSales->credit}}" class="form-control">
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <label>Transfer</label>
-                        <input type="number" step="0.01" name="transfer" value="0" class="form-control">
+                        <input type="number" step="0.01" name="transfer" value="{{$cashierSales->transfer}}" class="form-control">
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <label>Paid Credit</label>
-                        <input type="number" step="0.01" value="0" name="paid_credit" value="0" class="form-control">
+                        <input type="number" step="0.01" name="paid_credit" value="{{$cashierSales->paid_credit}}" class="form-control">
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <label>Special Exp 1</label>
-                        <input type="number" step="0.01" name="special_exp1" value="0" class="form-control">
+                        <input type="number" step="0.01" name="special_exp1" value="{{$cashierSales->special_exp1}}" class="form-control">
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <label>Special Exp 2</label>
-                        <input type="number" step="0.01" name="special_exp2" value="0" class="form-control">
+                        <input type="number" step="0.01" name="special_exp2" value="{{$cashierSales->special_exp2}}" class="form-control">
                     </div>
 
 
                 </div>
 
                 <button class="btn btn-success">
-                    Save Sales
+                    Update Sales
                 </button>
 
             </form>
@@ -130,7 +120,6 @@ function calculateAmounts() {
     let bagsSold = parseFloat(document.getElementById('bags_sold').value) || 0;
     let linkages = parseFloat(document.getElementById('linkages').value) || 0;
     let plus = parseFloat(document.getElementById('plus').value) || 0;
-    
 
     document.getElementById('total_amount').value =
         bagsSold * price;

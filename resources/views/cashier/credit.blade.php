@@ -1,61 +1,106 @@
 @extends('layouts.cashier')
 
 @section('content')
+<div class="container-fluid">
 
-<div class="container mx-auto p-4">
-    <h2 class="text-2xl font-bold mb-4">Credit Sales</h2>
 
-   
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Sale ID</th>
-                    <th>Customer</th>
-                    <th>Total Amount</th>
-                    <th>payed Amount</th>
-                    <th>Remaining balance</th>
-                    <th>Date</th>
-                    <th>Method</th>
-                    <th>Pay Amount</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-             @if($creditSales->isEmpty())
-            <p>No credit sales found.</p>
-            @else
-            <tbody>
-                @foreach($creditSales as $sale)
-                    <tr>
-                        <td>{{ $sale->id }}</td>
-                        <td>{{ $sale->customer ? $sale->customer->name : 'N/A' }}</td>
-                        <td>{{ number_format($sale->items->sum('subtotal'), 2) }}</td>
-                        <td>{{ number_format($sale->part_payment, 2) }}</td>
-                        <td>{{ number_format($sale->items->sum('subtotal') - $sale->part_payment, 2) }}</td>
-                        <td>{{ $sale->created_at->format('Y-m-d H:i') }}</td>
-                        <form action="{{ route('cashier.credit.updatePaymentMethod', $sale->id) }}" method="post">
-                            @csrf
-                                <td>
-                                <select name="payment_method" required class="form-control">
-                                    <option value="" >selected</option>
-                                    <option value="cash">Cash</option>
-                                    <option value="transfer">Transfer</option>
-                                    <option value="pos">POS</option>
-                                </select></td>
-                                <input type="number" hidden name="amount" required value="{{ $sale->items->sum('subtotal') }}">
-                                <input type="number" hidden name="old_payment" required value="{{ $sale->part_payment }}">
-                                <td><input type="number" name="new_payment" max= "{{ number_format($sale->items->sum('subtotal'), 2) }}" required class="form-control" placeholder="Enter Amount"></td>
-                            <td><button class="btn btn-primary">Pay</button></td>
-                        </form>
-                        
-                        
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
+<!-- Top Controls -->
+<div class="row mb-3">
+    <div class="col-md-6">
+        <form method="GET" class="d-flex align-items-center">
+            <label class="me-2 fw-bold">Show:</label>
+
+            <select name="per_page"
+                    onchange="this.form.submit()"
+                    class="form-select w-auto">
+
+                <option value="10" {{ request('per_page',10)==10 ? 'selected' : '' }}>10</option>
+                <option value="25" {{ request('per_page')==25 ? 'selected' : '' }}>25</option>
+                <option value="50" {{ request('per_page')==50 ? 'selected' : '' }}>50</option>
+                <option value="100" {{ request('per_page')==100 ? 'selected' : '' }}>100</option>
+
+            </select>
+
+            <span class="ms-3">
+                Total Records: {{ $cashierSales->total() }}
+            </span>
+        </form>
+    </div>
 </div>
- <h3 class="text-end">
-        Total: ₦{{ number_format($total,2) }}
-    </h3>
 
+<!-- Table -->
+<div class="table-responsive">
+
+    <table class="table table-bordered table-striped table-hover">
+
+        <thead class="table-primary">
+
+            <tr>
+                <th>VEHICLE</th>
+                <th>PRODUCT</th>
+                <th>BAGS SOLD</th>
+                <th>TOTAL AMOUNT</th>
+                <th>LINKAGES</th>
+                <th>LINKAGE AMOUNT</th>
+                <th>PLUS</th>
+                <th>PLUS AMOUNT</th>
+                <th>VEHICLE FUEL</th>
+                <th>VEHICLE EXP</th>
+                <th>CREDIT</th>
+                <th>TRANSFER</th>
+                <th>PAID CREDIT</th>
+                <th>SPECIAL EXP1</th>
+                <th>SPECIAL EXP2</th>
+                <th>REMAINING CREDIT</th>
+                <th>DATE</th>
+                <th>ACTION</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @foreach($cashierSales as $cashierSale)
+
+            <tr>
+                <td>{{ $cashierSale->vehicle }}</td>
+                <td>{{ $cashierSale->product?->name ?? 'NULL' }}</td>
+                <td>{{ $cashierSale->bags_sold }}</td>
+                <td>{{ number_format($cashierSale->total_amount,2) }}</td>
+                <td>{{ $cashierSale->linkages }}</td>
+                <td>{{ number_format($cashierSale->linkage_amount,2) }}</td>
+                <td>{{ $cashierSale->plus }}</td>
+                <td>{{ number_format($cashierSale->plus_amount,2) }}</td>
+                <td>{{ number_format($cashierSale->vehicle_fuel,2) }}</td>
+                <td>{{ number_format($cashierSale->vehicle_exp,2) }}</td>
+                <td>{{ number_format($cashierSale->credit,2) }}</td>
+                <td>{{ number_format($cashierSale->transfer,2) }}</td>
+                <td>{{ number_format($cashierSale->paid_credit,2) }}</td>
+                <td>{{ number_format($cashierSale->special_exp1,2) }}</td>
+                <td>{{ number_format($cashierSale->special_exp2,2) }}</td>
+                <td>{{ number_format($cashierSale->credit - $cashierSale->paid_credit, 2) }}</td>
+                <td>{{ $cashierSale->sales_date }}</td>
+                <td>
+                    <a href="{{ route('cashier.driver.edit',$cashierSale->id) }}"
+                       class="btn btn-sm btn-primary">
+                        Edit
+                    </a>
+                </td>
+            </tr>
+
+            @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-center mt-3">
+    {{ $cashierSales->links() }}
+</div>
+
+
+</div>
 @endsection

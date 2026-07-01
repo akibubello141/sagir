@@ -47,18 +47,58 @@ class StockController extends Controller
     }
 
     // PRODUCTION PAGE
-    public function production()
+    public function production(Request $request)
     {
 
-        $records = ProductionRecord::latest()->get();
+       $query = ProductionRecord::query();
 
-        $products = Product::all();
+        // Search by Date
+      
 
-        
+         if ($request->sales_date && $request->sales_date1) {
+
+             $query->whereBetween('production_date', [
+                $request->sales_date ,
+                $request->sales_date1
+            ]);
+        }
+
+        // Search by producer
+        if ($request->filled('producer')) {
+            $query->where('producer_name', 'like', '%' . $request->producer . '%');
+        }
+
+        // Search by product
+        if ($request->filled('product_id')) {
+            $query->where('product_id', $request->product_id);
+        }
+
+        // Search by schedule
+        if ($request->filled('shifting')) {
+            $query->where('shifting', $request->shifting);
+        }
+    
+
+        $productions = $query
+            ->latest()
+            ->paginate($request->per_page ?? 10)
+            ->withQueryString();        
+
+
+        $producers = ProductionRecord::all();
+        $products = product::all();
+        $totalProduction = ProductionRecord::sum('quantity_produced');
+
 
         return view(
             'cashier.production',
-            compact('products', 'records')
+            compact(
+             
+                'totalProduction',
+                'productions',
+                'producers',
+                'products'
+            )
         );
     }
 

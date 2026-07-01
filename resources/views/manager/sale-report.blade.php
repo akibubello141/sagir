@@ -1,11 +1,71 @@
-@extends('layouts.cashier')
+@extends('layouts.manager')
 
 @section('content')
 <div class="container-fluid">
 
 
 <!-- Top Controls -->
+ <div class="row mb-3"></div>
 <div class="row mb-3">
+        <form method="GET" class="row mb-3">
+
+        <div class="col-md-2">
+            <input type="date"
+                name="sales_date"
+                value="{{ request('sales_date') }}"
+                class="form-control">
+        </div>
+
+          <div class="col-md-2">
+            <input type="date"
+                name="sales_date1"
+                value="{{ request('sales_date1') }}"
+                class="form-control">
+        </div>
+
+        <div class="col-md-2">
+            <select name="vehicle" class="form-control">
+                <option value="">All Vehicle</option>
+
+                @foreach($vehicles as $vehicle)
+                    <option value="{{ $vehicle->vehicle }}"
+                        {{ request('vehicle') == $vehicle->vehicle ? 'selected' : '' }}>
+                        {{ $vehicle->vehicle }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <select name="product_id" class="form-control">
+                <option value="">All Products</option>
+
+                @foreach($products as $product)
+                    <option value="{{ $product->id }}"
+                        {{ request('product_id') == $product->id ? 'selected' : '' }}>
+                        {{ $product->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <select name="per_page"
+                    class="form-control">
+                <option value="10">10 Records</option>
+                <option value="25">25 Records</option>
+                <option value="50">50 Records</option>
+                <option value="100">100 Records</option>
+            </select>
+        </div>
+
+        <div class="col-md-1">
+            <button class="btn btn-primary w-100">
+                Search
+            </button>
+        </div>
+
+    </form>
     <div class="col-md-6">
         <form method="GET" class="d-flex align-items-center">
             <label class="me-2 fw-bold">Show:</label>
@@ -54,7 +114,6 @@
                 <th>TOTAL BAL</th>
                 <th>GROSS</th>
                 <th>DATE</th>
-                <th>ACTION</th>
             </tr>
 
         </thead>
@@ -82,15 +141,29 @@
                 <td>{{ number_format($cashierSale->total_balance,2) }}</td>
                 <td>{{ number_format($cashierSale->gross,2) }}</td>
                 <td>{{ $cashierSale->sales_date }}</td>
-                <td>
-                    <a href="{{ route('cashier.driver.edit',$cashierSale->id) }}"
-                       class="btn btn-sm btn-primary">
-                        Edit
-                    </a>
-                </td>
+                
             </tr>
 
             @endforeach
+            <tr class="table-primary" style="font: size 24px;">
+                <th colspan="2">GRAND TOTAL:</th>
+                <th>{{ number_format($totals->bags_sold, 2) }}</th>
+                <th>{{ number_format($totals->total_amount, 2) }}</th>
+                <th>{{ number_format($totals->linkages, 2) }}</th>
+                <th>{{ number_format($totals->linkage_amount, 2) }}</th>
+                <th>{{ number_format($totals->plus, 2) }}</th>
+                <th>{{ number_format($totals->plus_amount, 2) }}</th>
+                <th>{{ number_format($totals->vehicle_fuel, 2) }}</th>
+                <th>{{ number_format($totals->vehicle_exp, 2) }}</th>
+                <th>{{ number_format($totals->credit, 2) }}</th>
+                <th>{{ number_format($totals->transfer, 2) }}</th>
+                <th>{{ number_format($totals->paid_credit, 2) }}</th>
+                <th>{{ number_format($totals->special_exp1, 2) }}</th>
+                <th>{{ number_format($totals->special_exp2, 2) }}</th>
+                <th>{{ number_format($totals->total_balance, 2) }}</th>
+                <th>{{ number_format($totals->gross, 2) }}</th>
+                <th></th>
+            </tr>
 
         </tbody>
 

@@ -8,29 +8,21 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\Customer;
-use App\Models\DeliveryLoad;
+use App\Models\CashierSale;
 
 
 class SaleController extends Controller
 {
     public function dashboard()
     {
-        $todaySales = Sale::with('items.product')->whereDate('created_at', today())->sum('total_amount');
 
         $products = Product::all();
         $customers = Customer::count('id');
-        $deliveryCount = DeliveryLoad::where('status', 'pending')->count();
-        $todayAmont = SaleItem::whereDate('created_at', today())->sum('subtotal');
-
-         $creditSales = Sale::with('items.product', 'customer')->where('payment_method', 'credit')
-        ->latest()
-        ->get();
-        $totalCredit = $creditSales->sum(function ($sale) {
-            return $sale->items->sum('subtotal') - $sale->part_payment;
-        });
+        $todaySales = CashierSale::whereDate('sales_date', today())->sum('bags_sold');
 
 
-        return view('cashier.dashboard', compact('todaySales','products','customers','deliveryCount','todayAmont','totalCredit'));
+
+        return view('cashier.dashboard', compact('todaySales','products','customers'));
     }
 
     public function index()

@@ -14,6 +14,8 @@ use App\Models\SystemSetting;
 use App\Models\ProductionRecord;
 use App\Models\SaleItem;
 use App\Models\Staff;
+use App\Models\CashierSale;
+
 
 
 
@@ -22,23 +24,173 @@ class ManagerController extends Controller
     // DASHBOARD
   public function  dash()
     {
-        // TOTAL SALES
-        $totalSales = SaleItem::sum('subtotal');
-
-        // TOTAL SALES CREDIT
-         $creditSales = Sale::with('items.product', 'customer')->where('payment_method', 'credit')
-        ->latest()
+       
+        // MONTHLY Bags Sold
+        $monthlyBagsSold = CashierSale::selectRaw('
+        MONTH(created_at) as month_number,
+        MONTHNAME(created_at) as month_name,
+        SUM(bags_sold) as total
+        ')
+        ->groupBy('month_number', 'month_name')
+        ->orderBy('month_number')
         ->get();
-        $totalCredit = $creditSales->sum(function ($sale) {
-            return $sale->items->sum('subtotal') - $sale->part_payment;
-        });
 
+         // MONTHLY Amount
+        $monthlyAmount = CashierSale::selectRaw('
+        MONTH(created_at) as month_number,
+        MONTHNAME(created_at) as month_name,
+        SUM(total_amount) as total
+        ')
+        ->groupBy('month_number', 'month_name')
+        ->orderBy('month_number')
+        ->get();
+
+        // MONTHLY Linkage
+        $monthlyLinkages = CashierSale::selectRaw('
+        MONTH(created_at) as month_number,
+        MONTHNAME(created_at) as month_name,
+        SUM(linkages) as total
+        ')
+        ->groupBy('month_number', 'month_name')
+        ->orderBy('month_number')
+        ->get();
+
+        // MONTHLY Linkage Amount
+        $monthlyLinkageAmounts = CashierSale::selectRaw('
+        MONTH(created_at) as month_number,
+        MONTHNAME(created_at) as month_name,
+        SUM(linkage_amount) as total
+        ')
+        ->groupBy('month_number', 'month_name')
+        ->orderBy('month_number')
+        ->get();
+
+        // MONTHLY Plus
+        $monthlyPlus = CashierSale::selectRaw('
+        MONTH(created_at) as month_number,
+        MONTHNAME(created_at) as month_name,
+        SUM(plus) as total
+        ')
+        ->groupBy('month_number', 'month_name')
+        ->orderBy('month_number')
+        ->get();
+
+         // MONTHLY Plus Amount
+        $monthlyPlusAmount = CashierSale::selectRaw('
+        MONTH(created_at) as month_number,
+        MONTHNAME(created_at) as month_name,
+        SUM(plus_amount) as total
+        ')
+        ->groupBy('month_number', 'month_name')
+        ->orderBy('month_number')
+        ->get();
+
+         // MONTHLY Vehicle Fuel
+        $monthlyFuel = CashierSale::selectRaw('
+        MONTH(created_at) as month_number,
+        MONTHNAME(created_at) as month_name,
+        SUM(vehicle_fuel) as total
+        ')
+        ->groupBy('month_number', 'month_name')
+        ->orderBy('month_number')
+        ->get();
+
+        // MONTHLY Vehicle expen
+        $monthlyVehicleExp = CashierSale::selectRaw('
+        MONTH(created_at) as month_number,
+        MONTHNAME(created_at) as month_name,
+        SUM(vehicle_exp) as total
+        ')
+        ->groupBy('month_number', 'month_name')
+        ->orderBy('month_number')
+        ->get();
+
+        // MONTHLY CREDIT
+         $monthlyCredit = CashierSale::selectRaw('
+            MONTH(created_at) as month_number,
+            MONTHNAME(created_at) as month_name,
+            SUM(credit) as total
+            ')
+            ->groupBy('month_number', 'month_name')
+            ->orderBy('month_number')
+            ->get();
+
+             // MONTHLY TRANSFER
+         $monthlyTransfer = CashierSale::selectRaw('
+            MONTH(created_at) as month_number,
+            MONTHNAME(created_at) as month_name,
+            SUM(transfer) as total
+            ')
+            ->groupBy('month_number', 'month_name')
+            ->orderBy('month_number')
+            ->get();
+            // MONTHLY Paid Credit
+         $monthlyPaidCredit = CashierSale::selectRaw('
+            MONTH(created_at) as month_number,
+            MONTHNAME(created_at) as month_name,
+            SUM(paid_credit) as total
+            ')
+            ->groupBy('month_number', 'month_name')
+            ->orderBy('month_number')
+            ->get();
+
+            // MONTHLY Special Exp1
+         $monthlySpecialExp1 = CashierSale::selectRaw('
+            MONTH(created_at) as month_number,
+            MONTHNAME(created_at) as month_name,
+            SUM(special_exp1) as total
+            ')
+            ->groupBy('month_number', 'month_name')
+            ->orderBy('month_number')
+            ->get();
+
+            // MONTHLY Special Exp2
+         $monthlySpecialExp2 = CashierSale::selectRaw('
+            MONTH(created_at) as month_number,
+            MONTHNAME(created_at) as month_name,
+            SUM(special_exp2) as total
+            ')
+            ->groupBy('month_number', 'month_name')
+            ->orderBy('month_number')
+            ->get();
+
+            // MONTHLY Total GROSS
+         $monthlyGross = CashierSale::selectRaw('
+            MONTH(created_at) as month_number,
+            MONTHNAME(created_at) as month_name,
+            SUM(gross) as total
+            ')
+            ->groupBy('month_number', 'month_name')
+            ->orderBy('month_number')
+            ->get();
+
+            // MONTHLY TOTAL BALANCE
+         $monthlyTotalBalance = CashierSale::selectRaw('
+            MONTH(created_at) as month_number,
+            MONTHNAME(created_at) as month_name,
+            SUM(total_balance) as total
+            ')
+            ->groupBy('month_number', 'month_name')
+            ->orderBy('month_number')
+            ->get();
+
+         // MONTHLY Bags Produce
+        $monthlyBagsProduce = ProductionRecord::selectRaw('
+        MONTH(created_at) as month_number,
+        MONTHNAME(created_at) as month_name,
+        SUM(quantity_produced) as total
+        ')
+        ->groupBy('month_number', 'month_name')
+        ->orderBy('month_number')
+        ->get();
+
+        
 
         // TOTAL EXPENSES
         $totalExpenses = Expense::sum('amount');
 
         // PROFIT
-        $profit = $totalSales - $totalExpenses - $totalCredit;
+        $profit = "";
 
         // TOTAL PRODUCTS
         $products = Product::count();
@@ -53,20 +205,15 @@ class ManagerController extends Controller
 
         $staffs = Staff::count();
 
-        // MONTHLY SALES
-        $monthlySales = Sale::selectRaw(
-            'MONTH(created_at) as month,
-            SUM(total_amount) as total'
-        )
-        ->groupBy('month')
-        ->get();
 
         // MONTHLY EXPENSES
-        $monthlyExpenses = Expense::selectRaw(
-            'MONTH(created_at) as month,
-            SUM(amount) as total'
-        )
-        ->groupBy('month')
+       $monthlyExpenses = Expense::selectRaw('
+        MONTH(created_at) as month_number,
+        MONTHNAME(created_at) as month_name,
+        SUM(amount) as total
+        ')
+        ->groupBy('month_number', 'month_name')
+        ->orderBy('month_number')
         ->get();
 
         // PRODUCT SALES
@@ -84,17 +231,29 @@ class ManagerController extends Controller
          return view(
             'manager.dash',
             compact(
-                'totalSales',
-                'totalExpenses',
-                'profit',
                 'products',
                 'users',
                 'production',
-                'monthlySales',
+                'monthlyBagsSold',
+                'monthlyAmount',
+                'monthlyLinkages',
+                'monthlyLinkageAmounts',
+                'monthlyPlus',
+                'monthlyPlusAmount',
+                'monthlyFuel',
+                'monthlyVehicleExp',
+                'monthlyCredit',
+                'monthlyTransfer',
+                'monthlyPaidCredit',
+                'monthlySpecialExp1',
+                'monthlySpecialExp2',
+                'monthlyGross',
+                'monthlyTotalBalance',
+                'monthlyBagsProduce',               
+                
                 'monthlyExpenses',
                 'productSales',
                 'bestSelling',
-                'totalCredit',
                 'staffs'
             )
         );
@@ -142,101 +301,6 @@ class ManagerController extends Controller
         );
     }
 
-    public function report(Request $request)
-    {
-        $query = Sale::query();
-        $saleQuery = Sale::query()->where('payment_method', 'credit');
-        $productionQuery = ProductionRecord::query();
-        $expensesQuery = Expense::query();
-
-        if ($request->start_date && $request->end_date) {
-
-            $query->whereBetween('created_at', [
-                $request->start_date . ' 00:00:00',
-                $request->end_date . ' 23:59:59'
-            ]);
-           $saleQuery->whereBetween('created_at', [
-                $request->start_date . ' 00:00:00',
-                $request->end_date . ' 23:59:59'
-            ]);
-             $productionQuery->whereBetween('created_at', [
-                $request->start_date . ' 00:00:00',
-                $request->end_date . ' 23:59:59'
-            ]);
-             $expensesQuery->whereBetween('created_at', [
-                $request->start_date . ' 00:00:00',
-                $request->end_date . ' 23:59:59'
-            ]);
-        }
-
-        $sales = $query->latest()->get();
-        $credit = $saleQuery->latest()->get();
-        $productions = $productionQuery->latest()->get();
-        $expenses = $expensesQuery->latest()->get();
-
-        $totalSales = $sales->sum('total_amount');
-        $totalCredit = $credit->sum('total_amount');
-        $partPayment = $credit->sum('part_payment');
-        $remainingCredit = $totalCredit - $partPayment;
-
-        $totalExpenses = Expense::when(
-            $request->start_date,
-            function ($q) use ($request) {
-                return $q->whereBetween(
-                    'expense_date',
-                    [
-                        $request->start_date,
-                        $request->end_date
-                    ]
-                );
-            }
-        )->sum('amount');
-
-        $totalProduction = ProductionRecord::when(
-            $request->start_date,
-            function ($q) use ($request) {
-                return $q->whereBetween(
-                    'production_date',
-                    [
-                        $request->start_date,
-                        $request->end_date
-                    ]
-                );
-            }
-        )->sum('quantity_produced');
-
-        $profit = $totalSales - $totalExpenses - $remainingCredit;
-
-        return view(
-            'manager.report',
-            compact(
-                'sales',
-                'totalSales',
-                'totalExpenses',
-                'profit',
-                'totalProduction',
-                'remainingCredit',
-                'productions',
-                'expenses'
-            )
-        );
-    }
-
-    // DRIVER RETURNS REPORT
-        public function driverReport()
-        {
-            $reports = DeliveryReturn::with([
-                'deliveryLoad.driver',
-                'product'
-            ])
-            ->latest()
-            ->get();
-
-            return view(
-                'manager.driver-report',
-                compact('reports')
-            );
-        }
 
      
 

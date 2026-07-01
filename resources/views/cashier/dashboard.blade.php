@@ -13,7 +13,7 @@
             <div class="card bg-success text-white shadow">
                 <div class="card-body">
                     <h5>Today's Sales</h5>
-                    <h2>₦{{ number_format($todayAmont,2) }}</h2>
+                    <h2>₦{{ number_format($todaySales,2) }}</h2>
                 </div>
             </div>
         </div>
@@ -39,16 +39,6 @@
         </div>
 
          @endforeach
-
-           <div class="col-md-3 p-2">
-            <div class="card bg-danger text-white shadow">
-                <div class="card-body">
-                    <h5>Credit</h5>
-                    <h2>₦{{number_format($totalCredit, 2) }}</h2>
-                </div>
-            </div>
-        </div>
-
 
     </div>
 

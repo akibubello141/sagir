@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\CashierSaleController;
 use App\Http\Controllers\supervisor\SupervisorController;
 use App\Http\Controllers\Supervisor\DeliveryController;
 
@@ -18,6 +19,8 @@ use App\Http\Controllers\Manager\StaffController;
 use App\Http\Controllers\Manager\ProductController;
 use App\Http\Controllers\Manager\UserController;
 use App\Http\Controllers\Manager\ManagerController;
+use App\Http\Controllers\Manager\ReportController;
+
 
 
 
@@ -25,12 +28,11 @@ use App\Http\Controllers\Manager\ManagerController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::view('/cashier/dashboard', 'cashier.dashboard');
 Route::view('/supervisor/dashboard', 'supervisor.dashboard');
 Route::view('/manager/dash', 'manager.dash');
-
 Route::get('/logout', [AuthController::class, 'logout']);
 
 
@@ -201,6 +203,18 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
             Route::post('/save',[StockController::class,'saveProduction'])->name('save');
         });
 
+         //CASHIER SALE
+        Route::prefix('driver')
+        ->name('driver.')
+        ->group(function(){
+            Route::get('/',[CashierSaleController::class,'show'])->name('index');
+            Route::post('/save',[CashierSaleController::class,'store'])->name('save');
+            Route::get('/edit/{id}',[CashierSaleController::class,'edit'])->name('edit');
+            Route::post('/update/{id}',[CashierSaleController::class,'update'])->name('update');
+            Route::get('/credit',[CashierSaleController::class,'credit'])->name('credit');
+            Route::get('/report',[CashierSaleController::class,'report'])->name('report');
+            });
+
     });
 });
 
@@ -209,27 +223,12 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
 //manager
 Route::middleware(['auth','role:manager'])->group(function () {
 
-    Route::get(
-        '/manager/dashboard',
-        [ManagerController::class, 'dashboard']
-    );
-
+  
     Route::get(
         '/manager/dash',
         [ManagerController::class, 'dash']
     );
 
-
-    // SETTINGS
-    Route::get(
-        '/manager/settings',
-        [ManagerController::class, 'settings']
-    );
-
-    Route::post(
-        '/manager/save-settings',
-        [ManagerController::class, 'saveSettings']
-    );
 
     // BACKUP
     Route::get(
@@ -237,13 +236,6 @@ Route::middleware(['auth','role:manager'])->group(function () {
         [ManagerController::class, 'backup']
     );
 
-    //report
-    Route::get('/manager/report',[ManagerController::class, 'report'])->name('manager.report');
-
-    //DRIVER RETURNS
-    Route::get('/manager/driver-report',[ManagerController::class, 'driverReport'])->name('manager.driver.report');
-
-   
     Route::name('manager.')
     ->prefix('manager')
     ->group(function () {
@@ -279,6 +271,14 @@ Route::middleware(['auth','role:manager'])->group(function () {
             Route::get('/edit/{id}', [StaffController::class, 'edit'])->name('edit');
             Route::post('/update/{id}', [StaffController::class, 'update'])->name('update');
             Route::get('/delete/{id}', [StaffController::class, 'delete'])->name('delete');    
+        });
+
+         // REPORT
+        Route::prefix('report')
+        ->name('report.')
+        ->group(function () {
+            Route::get('/sale', [ReportController::class, 'saleReport'])->name('sale');
+            Route::get('/production',[ReportController::class,'productionReport'])->name('production');
         });
     });
 
