@@ -51,9 +51,6 @@
                 <th>PAID CREDIT</th>
                 <th>SPECIAL EXP1</th>
                 <th>SPECIAL EXP2</th>
-                <th>TOTAL BAL</th>
-                <th>GROSS</th>
-                <th>DATE</th>
                 <th>ACTION</th>
             </tr>
 
@@ -64,7 +61,7 @@
             @foreach($cashierSales as $cashierSale)
 
             <tr>
-                <td>{{ $cashierSale->vehicle }}</td>
+                <td>{{ $cashierSale->customer?->name ?? 'NULL' }}</td>
                 <td>{{ $cashierSale->product?->name ?? 'NULL' }}</td>
                 <td>{{ $cashierSale->bags_sold }}</td>
                 <td>{{ number_format($cashierSale->total_amount,2) }}</td>
@@ -79,9 +76,6 @@
                 <td>{{ number_format($cashierSale->paid_credit,2) }}</td>
                 <td>{{ number_format($cashierSale->special_exp1,2) }}</td>
                 <td>{{ number_format($cashierSale->special_exp2,2) }}</td>
-                <td>{{ number_format($cashierSale->total_balance,2) }}</td>
-                <td>{{ number_format($cashierSale->gross,2) }}</td>
-                <td>{{ $cashierSale->sales_date }}</td>
                 <td>
                     <a href="{{ route('cashier.driver.edit',$cashierSale->id) }}"
                        class="btn btn-sm btn-primary">

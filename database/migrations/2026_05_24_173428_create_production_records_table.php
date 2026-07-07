@@ -16,9 +16,7 @@ return new class extends Migration
 
             $table->string('producer_name')->nullable();
 
-            $table->foreignId('product_id')
-                ->constrained('products')
-                ->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
 
             $table->integer('quantity_produced');
 

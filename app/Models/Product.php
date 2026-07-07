@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = [
-        'name',
+         'name',
         'price',
         'stock_quantity',
-        'low_stock_limit',
+        'low_stock_limit'
     ];
 
     public function saleItems()

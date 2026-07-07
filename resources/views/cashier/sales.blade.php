@@ -7,6 +7,12 @@
     <div class="card shadow">
         <div class="card-header bg-primary text-white">
             Daily Sales Entry
+
+            @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
         </div>
 
         <div class="card-body">

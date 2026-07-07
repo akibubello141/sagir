@@ -22,7 +22,7 @@ class ReportController extends Controller
     //SALES REPORT
      public function saleReport(Request $request)
     {
-        $query = CashierSale::with('product');
+        $query = CashierSale::with('product','customer');
 
         // Search by Date
         if ($request->filled('sales_date') && $request->filled('sales_date1')) {
@@ -40,8 +40,8 @@ class ReportController extends Controller
         }
 
         // Search by Vehicle
-        if ($request->filled('vehicle')) {
-            $query->where('vehicle', 'like', '%' . $request->vehicle . '%');
+        if ($request->filled('customer_id')) {
+            $query->where('customer_id', 'like', '%' . $request->customer_id . '%');
         }
 
         // Search by Product
@@ -49,10 +49,7 @@ class ReportController extends Controller
             $query->where('product_id', $request->product_id);
         }
 
-        // Search by Product
-        if ($request->filled('product_id')) {
-            $query->sum('bags_sold')->where('product_id', $request->product_id);
-        }
+    
 
     
 
@@ -60,6 +57,7 @@ class ReportController extends Controller
             ->latest()
             ->paginate($request->per_page ?? 10)
             ->withQueryString();
+
 
             $totals = (clone $query)->selectRaw('
                 SUM(bags_sold) as bags_sold,
@@ -80,7 +78,7 @@ class ReportController extends Controller
             ')->first();
 
         $products = Product::orderBy('name')->get();
-        $vehicles = CashierSale::orderBy('vehicle')->get();
+        $vehicles = Customer::orderBy('name')->get();
 
         return view('manager.sale-report', compact(
             'cashierSales',
@@ -122,6 +120,11 @@ class ReportController extends Controller
             $query->where('shifting', $request->shifting);
         }
     
+
+        // Search by production site
+        if ($request->filled('production_site')) {
+            $query->where('production_site', $request->production_site);
+        }
 
         $productions = $query
             ->latest()

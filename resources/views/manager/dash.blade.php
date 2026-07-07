@@ -249,7 +249,10 @@
             <div class="card">
                 <div class="card-body">
                     <h5>Best Selling Vehicle</h5>
-                    <h2>{{ $production }}</h2>
+                    <h2>@foreach($bestBuyingCustomers as $item)
+                            {{ $item->customer?->name }}
+                            {{ $item->total_bags_sold }}<br />
+                        @endforeach</h2>
                 </div>
             </div>
         </div>
@@ -267,7 +270,10 @@
             <div class="card">
                 <div class="card-body">
                     <h5>Best Selling Product</h5>
-                    <h2>{{ $bestSelling->name ?? 'No Data' }}</h2>
+                    <h2>@foreach($bestSelling as $item)
+                            {{ $item->product?->name }}
+                            {{ $item->total_bags_sold }}<br />
+                        @endforeach</h2>
                 </div>
             </div>
         </div>

@@ -16,11 +16,16 @@
             </div>
 
             <div class="col-md-3">
-                <input type="text"
-                    name="vehicle"
-                    value="{{ request('vehicle') }}"
-                    class="form-control"
-                    placeholder="Vehicle">
+                <select name="customer_id" class="form-control">
+                    <option value="">All Vehicles</option>
+
+                    @foreach($customers as $customer)
+                        <option value="{{ $customer->id }}"
+                            {{ request('customer_id') == $customer->id ? 'selected' : '' }}>
+                            {{ $customer->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="col-md-3">
@@ -111,7 +116,7 @@
                 @foreach($cashierSales as $cashierSale)
 
                 <tr>
-                    <td>{{ $cashierSale->vehicle }}</td>
+                    <td>{{ $cashierSale->customer?->name ?? 'NULL' }}</td>
                     <td>{{ $cashierSale->product?->name ?? 'NULL' }}</td>
                     <td>{{ $cashierSale->bags_sold }}</td>
                     <td>{{ number_format($cashierSale->total_amount,2) }}</td>

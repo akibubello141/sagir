@@ -3,17 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StockController;
-use App\Http\Controllers\CashierSaleController;
-use App\Http\Controllers\supervisor\SupervisorController;
-use App\Http\Controllers\Supervisor\DeliveryController;
+use App\Http\Controllers\Cashier\CashierSaleController;
 
-
-use App\Http\Controllers\CashierController;
 use App\Http\Controllers\Cashier\SaleController;
 use App\Http\Controllers\Cashier\CustomerController;
-use App\Http\Controllers\Cashier\DeliveryReturnController;
-use App\http\Controllers\cashier\ExpensesController;
-use App\http\controllers\cashier\ReturnDamageController;
 
 use App\Http\Controllers\Manager\StaffController;
 use App\Http\Controllers\Manager\ProductController;
@@ -26,7 +19,7 @@ use App\Http\Controllers\Manager\ReportController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -36,99 +29,7 @@ Route::view('/manager/dash', 'manager.dash');
 Route::get('/logout', [AuthController::class, 'logout']);
 
 
-
-//supervisor
-
-    Route::middleware([
-        'auth',
-        'role:supervisor'
-    ])->group(function () {
-
-        Route::get(
-            '/supervisor/dashboard',
-            [SupervisorController::class, 'dashboard']
-        );
-
-        Route::get(
-            '/supervisor/stock',
-            [SupervisorController::class, 'stock']
-        );
-
-        Route::post(
-            '/supervisor/add-stock',
-            [SupervisorController::class, 'addStock']
-        );
-
-        Route::get(
-            '/supervisor/production',
-            [SupervisorController::class, 'production']
-        );
-
-        Route::post(
-            '/supervisor/save-production',
-            [SupervisorController::class, 'saveProduction']
-        );
-
-        Route::get(
-            '/supervisor/cashier-activities',
-            [SupervisorController::class, 'cashierActivities']
-        );
-
-        Route::get(
-            '/supervisor/corrections',
-            [SupervisorController::class, 'corrections']
-        );
-
-        Route::post(
-            '/supervisor/correction/{id}',
-            [SupervisorController::class, 'approveCorrection']
-        );
-
-        // REPORT
-        Route::get(
-        '/supervisor/report',
-        [SupervisorController::class, 'report']
-    );
-
-    // RETURN DAMAGE
-        Route::get(
-        '/supervisor/returns',
-        [SupervisorController::class, 'returns']
-    );
-
-    Route::post(
-        '/supervisor/returns/store',
-        [SupervisorController::class, 'storeReturn']
-    );
-
-    // DRIVER
-
-            Route::middleware(['auth'])->group(function () {
-
-            Route::get(
-                '/supervisor/load-products',
-                [DeliveryController::class, 'create']
-            );
-
-            Route::post(
-                '/supervisor/load-products',
-                [DeliveryController::class, 'store']
-            );
-
-        });
-
-        //DELIVERY HISTORY
-                    Route::get(
-            '/supervisor/delivery-history',
-            [DeliveryController::class,'history']
-            );
-
-    });
-
 //cashier
-Route::get('/dashboard/cashier/new-sell', [CashierController::class, 'newSell'])->middleware('auth');
-Route::get('/cashier/dashboard', [CashierController::class, 'dashboard'])->middleware('auth');    
-
 Route::middleware(['auth', 'role:cashier'])->group(function () {
 
     Route::get('/cashier/dashboard', [SaleController::class, 'dashboard']);
@@ -143,20 +44,8 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
     // DAILY SALES
     Route::get('/cashier/daily-sales', [SaleController::class, 'dailySales']);
 
-    // REPORT
-    Route::get('/cashier/report',[SaleController::class, 'report']
-    );
-
-    //DELIVARY RETURNS
-    Route::get('/cashier/driver-return',[DeliveryReturnController::class,'create']
-    );
-
-    Route::post('/cashier/driver-return',[DeliveryReturnController::class,'store']
-    );
-
     //CREDIT SALES
-    Route::get('/cashier/credit',[SaleController::class,'credit']
-    );
+    Route::get('/cashier/credit',[SaleController::class,'credit']);
 
     //update payment method for credit sales
     Route::post('/cashier/credit/update-payment-method/{id}', [SaleController::class, 'updatePaymentMethod'])->name('cashier.credit.updatePaymentMethod');  
@@ -164,13 +53,7 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
    Route::name('cashier.')
     ->prefix('cashier')
     ->group(function () {
-        //expenses
-        Route::prefix('expenses')
-        ->name('expenses.')
-        ->group(function () {    
-            Route::get('/',[ExpensesController::class, 'expenses'])->name('index');
-            Route::post('save',[ExpensesController::class, 'saveExpense'])->name('save');
-          });
+
         //customers
         Route::prefix('customer')
         ->name('customer.')
@@ -181,26 +64,20 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
             Route::post('/update/{id}',[CustomerController::class,'update'])->name('update');
             Route::get('/delete/{id}',[CustomerController::class,'delete'])->name('delete');
         });
-        //returns & damage
-        Route::prefix('returns')
-        ->name('returns.')
-        ->group(function(){
-            Route::get('/',[ReturnDamageController::class,'returns'])->name('index');
-            Route::post('/store',[ReturnDamageController::class,'storeReturn'])->name('store');
-        });
+       
         //stock
         Route::prefix('stock')
         ->name('stock.')
         ->group(function(){
-            Route::get('/',[StockController::class,'stock'])->name('index');
-            Route::post('/add',[StockController::class,'addStock'])->name('add');
+            Route::get('/',[CashierSaleController::class,'stock'])->name('index');
+            Route::post('/add',[CashierSaleController::class,'addStock'])->name('add');
         });
         //production
         Route::prefix('production')
         ->name('production.')
         ->group(function(){
-            Route::get('/',[StockController::class,'production'])->name('index');
-            Route::post('/save',[StockController::class,'saveProduction'])->name('save');
+            Route::get('/',[CashierSaleController::class,'production'])->name('index');
+            Route::post('/save',[CashierSaleController::class,'saveProduction'])->name('save');
         });
 
          //CASHIER SALE
@@ -224,17 +101,10 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
 Route::middleware(['auth','role:manager'])->group(function () {
 
   
-    Route::get(
-        '/manager/dash',
-        [ManagerController::class, 'dash']
-    );
-
+    Route::get('/manager/dash',[ManagerController::class, 'dash']);
 
     // BACKUP
-    Route::get(
-        '/manager/backup',
-        [ManagerController::class, 'backup']
-    );
+    Route::get('/manager/backup',[ManagerController::class, 'backup']);
 
     Route::name('manager.')
     ->prefix('manager')

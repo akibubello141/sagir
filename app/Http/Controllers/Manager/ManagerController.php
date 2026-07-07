@@ -186,12 +186,7 @@ class ManagerController extends Controller
 
         
 
-        // TOTAL EXPENSES
-        $totalExpenses = Expense::sum('amount');
-
-        // PROFIT
-        $profit = "";
-
+       
         // TOTAL PRODUCTS
         $products = Product::count();
 
@@ -206,27 +201,35 @@ class ManagerController extends Controller
         $staffs = Staff::count();
 
 
-        // MONTHLY EXPENSES
-       $monthlyExpenses = Expense::selectRaw('
-        MONTH(created_at) as month_number,
-        MONTHNAME(created_at) as month_name,
-        SUM(amount) as total
-        ')
-        ->groupBy('month_number', 'month_name')
-        ->orderBy('month_number')
-        ->get();
 
         // PRODUCT SALES
-        $productSales = Product::withCount(
-            'saleItems'
-        )->get();
+        $productSales = CashierSale::selectRaw('
+            product_id,
+            SUM(bags_sold) as total_bags_sold,
+            SUM(total_amount) as total_sales_amount
+        ');
 
-        // BEST SELLING
-        $bestSelling = Product::withCount(
-            'saleItems'
-        )
-        ->orderBy('sale_items_count', 'desc')
-        ->first();
+        // BEST SELLING PRODUCTS
+        $bestSelling = CashierSale::with('product')->selectRaw('
+            product_id,
+            SUM(bags_sold) as total_bags_sold,
+            SUM(total_amount) as total_sales_amount
+        ')
+        ->groupBy('product_id')
+        ->orderByDesc('total_bags_sold')
+        ->limit(5)
+        ->get();
+
+        //BEST BUYING CUSTOMERS
+        $bestBuyingCustomers = CashierSale::with('customer')->selectRaw('
+            customer_id,
+            SUM(bags_sold) as total_bags_sold,
+            SUM(total_amount) as total_sales_amount
+        ')
+        ->groupBy('customer_id')
+        ->orderByDesc('total_bags_sold')
+        ->limit(5)
+        ->get();
 
          return view(
             'manager.dash',
@@ -251,9 +254,9 @@ class ManagerController extends Controller
                 'monthlyTotalBalance',
                 'monthlyBagsProduce',               
                 
-                'monthlyExpenses',
                 'productSales',
                 'bestSelling',
+                'bestBuyingCustomers',
                 'staffs'
             )
         );

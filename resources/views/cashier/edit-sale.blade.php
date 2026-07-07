@@ -6,7 +6,13 @@
 
     <div class="card shadow">
         <div class="card-header bg-primary text-white">
-            Daily Sales Entry
+            Daily Sales Edit
+
+             @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
         </div>
 
         <div class="card-body">
@@ -23,8 +29,9 @@
 
                     <div class="col-md-3 mb-3">
                         <label>Vehicle</label>
-                        <input type="text" name = "vehicle" value="{{ $cashierSales->vehicle}}" class="form-control" readonly>
-                       
+                        <select name="customer_id" id="" class="form-control">
+                            <option value="{{$cashierSales->customer->id}}">{{ $cashierSales->customer->name}}</option>
+                        </select>
                     </div>
 
                      <div class="col-md-3">

@@ -21,14 +21,14 @@
 <div class="row mb-3">
         <form method="GET" class="row mb-3">
 
-        <div class="col-md-2">
+        <div class="col-md-1">
             <input type="date"
                 name="sales_date"
                 value="{{ request('sales_date') }}"
                 class="form-control">
         </div>
 
-          <div class="col-md-2">
+          <div class="col-md-1">
             <input type="date"
                 name="sales_date1"
                 value="{{ request('sales_date1') }}"
@@ -58,6 +58,14 @@
                         {{ $product->name }}
                     </option>
                 @endforeach
+            </select>
+        </div>
+
+         <div class="col-md-2">
+            <select name="production_site" id="production_site" class="form-control">
+                <option value="">All Sites</option>
+                <option value="Shingai Site">Shingai Site</option>
+                <option value="Main Site">Main Site</option>
             </select>
         </div>
     
@@ -118,6 +126,11 @@
             <tr>
                 <th>NAMES</th>
                 <th>PRODUCT</th>
+                <th>PRODUCTION SITE</th>
+                <th>KG COLLECTED</th>
+                <th>KG USED</th>
+                <th>KG LEFT</th>
+                <th>BAGS PER KG</th>
                 <th>QUANTITY PRODUCED</th>
                 <th>DAMAGE QUANTITY</th>
                 <th>SHIFTING</th>
@@ -131,25 +144,38 @@
             @foreach($productions as $production)
 
             <tr>
-                <td>{{ $production->producer_name }}</td>
-                <td>{{ $production->product_id ?? 'NULL' }}</td>
+                 <td>{{ $production->producer_name }}</td>
+                <td>{{ $production->product->name }}</td>
+                <td>{{ $production->production_site }}</td>
+                <td>{{ $production->kg_collected }}</td>
+                <td>{{ $production->kg_used }}</td>
+                <td>{{ $production->kg_left }}</td>
+                <td>{{ $production->bags_per_kg }}</td>
                 <td>{{ $production->quantity_produced }}</td>
                 <td>{{ number_format($production->damaged_quantity,2) }}</td>
                 <td>{{ $production->shifting }}</td>
-                <td>{{ $production->production_date }}</td>           
+                <td>{{ $production->production_date }}</td>          
             </tr>
 
             @endforeach
         </tbody>
             @php
-            $quantity_produced = $productions->sum('quantity_produced');
-            $damaged_quantity = $productions->sum('damaged_quantity');
+            $total_kg_collected = $productions->sum('kg_collected');
+            $total_kg_used = $productions->sum('kg_used');
+            $total_kg_left = $productions->sum('kg_left');
+            $total_bags_per_kg = $productions->sum('bags_per_kg');
+            $total_quantity_produced = $productions->sum('quantity_produced');
+            $total_damaged_quantity = $productions->sum('damaged_quantity');
             @endphp
         <tfoot>
              <tr class="table-primary" style="font: size 24px;">
-                <th colspan="2">GRAND TOTAL:</th>
-                <th>{{ number_format($quantity_produced, 2) }}</th>
-                <th>{{ number_format($damaged_quantity, 2) }}</th>
+                <th colspan="3">GRAND TOTAL:</th>
+                <th>{{ number_format($total_kg_collected, 2) }}</th>
+                <th>{{ number_format($total_kg_used, 2) }}</th>
+                <th>{{ number_format($total_kg_left, 2) }}</th>
+                <th>{{ number_format($total_bags_per_kg, 2) }}</th>
+                <th>{{ number_format($total_quantity_produced, 2) }}</th>
+                <th>{{ number_format($total_damaged_quantity, 2) }}</th>
                 <th colspan="2"></th>
             </tr>
         </tfoot>

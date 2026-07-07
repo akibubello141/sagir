@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('cashier_sales', function (Blueprint $table) {
             $table->id();
-            $table->string('vehicle');
+
+            $table->foreignId('customer_id')->constrained('users');
+            
+            $table->foreignId('product_id')->constrained('users');
+
             $table->integer('bags_sold')->default(0);
 
             $table->decimal('total_amount', 15, 2)->default(0);
-
+    
             $table->integer('linkages')->default(0);
             $table->decimal('linkage_amount', 15, 2)->default(0);
 

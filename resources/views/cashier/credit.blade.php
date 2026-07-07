@@ -63,7 +63,7 @@
             @foreach($cashierSales as $cashierSale)
 
             <tr>
-                <td>{{ $cashierSale->vehicle }}</td>
+                <td>{{ $cashierSale->customer?->name ?? 'NULL' }}</td>
                 <td>{{ $cashierSale->product?->name ?? 'NULL' }}</td>
                 <td>{{ $cashierSale->bags_sold }}</td>
                 <td>{{ number_format($cashierSale->total_amount,2) }}</td>

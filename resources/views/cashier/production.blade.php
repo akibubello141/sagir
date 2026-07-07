@@ -16,14 +16,14 @@
 <div class="row mb-3">
         <form method="GET" class="row mb-3">
 
-        <div class="col-md-2">
+        <div class="col-md-1">
             <input type="date"
                 name="sales_date"
                 value="{{ request('sales_date') }}"
                 class="form-control">
         </div>
 
-          <div class="col-md-2">
+          <div class="col-md-1">
             <input type="date"
                 name="sales_date1"
                 value="{{ request('sales_date1') }}"
@@ -32,7 +32,7 @@
 
         <div class="col-md-2">
             <select name="producer" class="form-control">
-                <option value="">All Vehicle</option>
+                <option value="">All Producers</option>
 
                 @foreach($producers as $producer)
                     <option value="{{ $producer->producer_name }}"
@@ -55,10 +55,18 @@
                 @endforeach
             </select>
         </div>
+
+        <div class="col-md-2">
+            <select name="production_site" id="production_site" class="form-control">
+                <option value="">All Sites</option>
+                <option value="Shingai Site">Shingai Site</option>
+                <option value="Main Site">Main Site</option>
+            </select>
+        </div>
     
         <div class="col-md-2">
             <select name="shifting" class="form-control">
-                <option value="">All Vehicle</option>
+                <option value="">All Shifts</option>
                 <option value="Morning">Morning</option>
                 <option value="Afternoon">Afternoon</option>
             </select>
@@ -113,6 +121,11 @@
             <tr>
                 <th>NAMES</th>
                 <th>PRODUCT</th>
+                <th>PRODUCTION SITE</th>
+                <th>KG COLLECTED</th>
+                <th>KG USED</th>
+                <th>KG LEFT</th>
+                <th>BAGS PER KG</th>
                 <th>QUANTITY PRODUCED</th>
                 <th>DAMAGE QUANTITY</th>
                 <th>SHIFTING</th>
@@ -127,7 +140,12 @@
 
             <tr>
                 <td>{{ $production->producer_name }}</td>
-                <td>{{ $production->product_id ?? 'NULL' }}</td>
+                <td>{{ $production->product->name }}</td>
+                <td>{{ $production->production_site }}</td>
+                <td>{{ $production->kg_collected }}</td>
+                <td>{{ $production->kg_used }}</td>
+                <td>{{ $production->kg_left }}</td>
+                <td>{{ $production->bags_per_kg }}</td>
                 <td>{{ $production->quantity_produced }}</td>
                 <td>{{ number_format($production->damaged_quantity,2) }}</td>
                 <td>{{ $production->shifting }}</td>
@@ -137,14 +155,23 @@
             @endforeach
         </tbody>
             @php
-            $quantity_produced = $productions->sum('quantity_produced');
-            $damaged_quantity = $productions->sum('damaged_quantity');
+            $total_kg_collected = $productions->sum('kg_collected');
+            $total_kg_used = $productions->sum('kg_used');
+            $total_kg_left = $productions->sum('kg_left');
+            $total_bags_per_kg = $productions->sum('bags_per_kg');
+            $total_quantity_produced = $productions->sum('quantity_produced');
+            $total_damaged_quantity = $productions->sum('damaged_quantity');
             @endphp
         <tfoot>
              <tr class="table-primary" style="font: size 24px;">
-                <th colspan="2">GRAND TOTAL:</th>
-                <th>{{ number_format($quantity_produced, 2) }}</th>
-                <th>{{ number_format($damaged_quantity, 2) }}</th>
+                <th colspan="3">GRAND TOTAL:</th>
+                <th>{{ number_format($total_kg_collected, 2) }}</th>
+                <th>{{ number_format($total_kg_used, 2) }}</th>
+                <th>{{ number_format($total_kg_left, 2) }}</th>
+                <th>{{ number_format($total_bags_per_kg, 2) }}</th>
+                <th>{{ number_format($total_quantity_produced, 2) }}</th>
+                <th>{{ number_format($total_damaged_quantity, 2) }}</th>
+                
                 <th colspan="2"></th>
             </tr>
         </tfoot>
@@ -187,10 +214,50 @@
                             @endforeach
                         </select>
                     </div>
-        
-                    <div class="mb-2">
-                        <label for="quantity_produced" class="form-label">Quantity Produced</label>
-                        <input type="number" name="quantity_produced" id="quantity_produced" class="form-control">
+
+                     <div class=" mb-2">
+                        <label>KG Collected</label>
+                        <input type="number" step="0.01"
+                            id="kg_collected"
+                            name="kg_collected"
+                            class="form-control"
+                            oninput="calculateProduction()">
+                    </div>
+
+                    <div class=" mb-2">
+                        <label>KG Used</label>
+                        <input type="number" step="0.01"
+                            id="kg_used"
+                            name="kg_used"
+                            class="form-control"
+                            oninput="calculateProduction()">
+                    </div>
+
+                    <div class=" mb-2">
+                        <label>KG Left</label>
+                        <input type="number"
+                            id="kg_left"
+                            name="kg_left"
+                            class="form-control"
+                            readonly>
+                    </div>
+
+                    <div class=" mb-2">
+                        <label>No. of Bags Per KG</label>
+                        <input type="number"
+                            id="bags_per_kg"
+                            name="bags_per_kg"
+                            class="form-control"
+                            oninput="calculateProduction()">
+                    </div>
+
+                    <div class=" mb-2">
+                        <label>Total Bags Produced</label>
+                        <input type="number"
+                            id="total_bags_produced"
+                            name="total_bags_produced"
+                            class="form-control"
+                            readonly>
                     </div>
 
                     <div class="mb-2">
@@ -200,6 +267,14 @@
                     </div>
 
                     <div class="mb-2">
+                        <label for="production_site" class="form-label">Production Site</label>
+                        <select name="production_site" id="production_site" class="form-control">
+                            <option value="Shingai Site">Shingai Site</option>
+                            <option value="Main Site">Main Site</option>
+                        </select>
+                    </div>
+
+                     <div class="mb-2">
                         <label for="shifting" class="form-label">Shifting</label>
                         <select name="shifting" id="shifting" class="form-control">
                             <option value="Morning">Morning</option>
@@ -212,6 +287,11 @@
                         <input type="text" name="producer_name" id="producer_name" class="form-control">
                     </div>
 
+                    <div class="mb-2">
+                        <label for="remarks" class="form-label">Remarks</label>
+                        <textarea name="remarks" id="remarks" class="form-control"></textarea>
+                    </div>
+
                     <div class="modal-footer">
                     <button class="btn btn-primary">Save Driver</button>
                     </div>
@@ -221,5 +301,17 @@
     </div>
   </div>
 </div>
+<script>
+    function calculateProduction(){
 
+    let collected = parseFloat(document.getElementById('kg_collected').value) || 0;
+    let used = parseFloat(document.getElementById('kg_used').value) || 0;
+    let bagsPerKg = parseFloat(document.getElementById('bags_per_kg').value) || 0;
+
+    document.getElementById('kg_left').value = collected - used;
+
+    document.getElementById('total_bags_produced').value =
+        used * bagsPerKg;
+}
+</script>
 @endsection

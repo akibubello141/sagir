@@ -8,18 +8,25 @@ class ProductionRecord extends Model
 {
     //
     protected $fillable = [
+        'production_site',
         'producer_name',
-        'supervisor_id',
         'product_id',
+        'kg_collected',
+        'kg_used',
+        'kg_left',
+        'bags_per_kg',
         'quantity_produced',
         'damaged_quantity',
         'returned_quantity',
         'shifting',
+        'remarks',
+        'supervisor_id',
+        'production_date'
     ];
 
      public function product()
 {
-    return $this->hasMany(Product::class);
+    return $this->belongsTo(Product::class);
 }
 
 }

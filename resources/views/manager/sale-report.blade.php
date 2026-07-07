@@ -24,13 +24,12 @@
         </div>
 
         <div class="col-md-2">
-            <select name="vehicle" class="form-control">
+            <select name="customer_id" class="form-control">
                 <option value="">All Vehicle</option>
-
                 @foreach($vehicles as $vehicle)
-                    <option value="{{ $vehicle->vehicle }}"
-                        {{ request('vehicle') == $vehicle->vehicle ? 'selected' : '' }}>
-                        {{ $vehicle->vehicle }}
+                    <option value="{{ $vehicle->id }}"
+                        {{ request('customer_id') == $vehicle->id ? 'selected' : '' }}>
+                        {{ $vehicle->name }}
                     </option>
                 @endforeach
             </select>
@@ -96,6 +95,7 @@
         <thead class="table-primary">
 
             <tr>
+                <th>PRODUCTION DATE</th>
                 <th>VEHICLE</th>
                 <th>PRODUCT</th>
                 <th>BAGS SOLD</th>
@@ -113,7 +113,6 @@
                 <th>SPECIAL EXP2</th>
                 <th>TOTAL BAL</th>
                 <th>GROSS</th>
-                <th>DATE</th>
             </tr>
 
         </thead>
@@ -123,7 +122,8 @@
             @foreach($cashierSales as $cashierSale)
 
             <tr>
-                <td>{{ $cashierSale->vehicle }}</td>
+                <td>{{ $cashierSale->sales_date }}</td>
+                <td>{{ $cashierSale->customer?->name ?? 'NULL' }}</td>
                 <td>{{ $cashierSale->product?->name ?? 'NULL' }}</td>
                 <td>{{ $cashierSale->bags_sold }}</td>
                 <td>{{ number_format($cashierSale->total_amount,2) }}</td>
@@ -140,7 +140,6 @@
                 <td>{{ number_format($cashierSale->special_exp2,2) }}</td>
                 <td>{{ number_format($cashierSale->total_balance,2) }}</td>
                 <td>{{ number_format($cashierSale->gross,2) }}</td>
-                <td>{{ $cashierSale->sales_date }}</td>
                 
             </tr>
 

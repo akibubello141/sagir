@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('drivers', function (Blueprint $table) {
-                $table->id();
-                $table->string('name');
-                $table->string('phone')->nullable();
-                $table->string('vehicle_number')->nullable();
-                $table->timestamps();
+        Schema::table('production_records', function (Blueprint $table) {
+            //
+           $table->integer('bags_per_kg')->default(0)->after('kg_used');
 
         });
     }
@@ -26,6 +23,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('drivers');
+        Schema::table('production_records', function (Blueprint $table) {
+            //
+            $table->dropColumn('bags_per_kg');
+        });
     }
 };
