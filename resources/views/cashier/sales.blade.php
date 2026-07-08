@@ -24,13 +24,13 @@
 
                     <div class="col-md-3 mb-3">
                         <label>Date</label>
-                        <input type="date" name="sales_date" class="form-control">
+                        <input type="date" name="sales_date" class="form-control required" value="{{ date('Y-m-d') }}" required>
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <label>Vehicle</label>
-                        <select name="vehicle" id="" class="form-control">
-                            <option value="0">Select Driver</option>
+                        <select name="vehicle" id="" class="form-control" required>
+                            <option value="">Select Driver</option>
                             @foreach($customers as $customer)
                             <option value="{{$customer->id}}">{{ $customer->name}}</option>
                             @endforeach
@@ -40,8 +40,8 @@
 
                      <div class="col-md-3">
                         <label>Enter Product</label>
-                        <select name="product_id" id="" class="form-control">
-                            <option value="0" >Select Product</option>
+                        <select name="product_id" id="" class="form-control" required>
+                            <option value="" >Select Product</option>
                             @foreach($products as $product)
                             <option value="{{$product->id}}" data-id="{{ $product->price }}">{{ $product->name}}|Price:{{$product->price }}|Stock:{{ $product->stock_quantity }}</option>
                             @endforeach
@@ -51,12 +51,12 @@
 
                      <div class="col-md-3">
                         <label>Enter Price</label>
-                        <input type="number" id="product_amount"  class="form-control" placeholder="Enter price">
+                        <input type="number" id="product_amount"  class="form-control" placeholder="Enter price" required>
                     </div>
 
                     <div class="col-md-3">
                         <label>No of Bags Sold</label>
-                        <input type="number" name="bags_sold" value="0" id="bags_sold" class="form-control">
+                        <input type="number" name="bags_sold" value="" id="bags_sold" class="form-control" required>
                     </div>
 
                     <div class="col-md-3">
