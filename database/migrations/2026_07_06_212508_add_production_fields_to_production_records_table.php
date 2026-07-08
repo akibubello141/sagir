@@ -20,6 +20,8 @@ return new class extends Migration
             $table->decimal('kg_used',10,2)->default(0)->after('kg_collected');
 
             $table->decimal('kg_left',10,2)->default(0)->after('kg_used');
+
+            $table->integer('bags_per_kg')->default(0)->after('kg_used');
             
             $table->text('remarks')->nullable();
 
@@ -38,6 +40,7 @@ return new class extends Migration
                 'kg_collected',
                 'kg_used',
                 'kg_left',
+                'bags_per_kg',
                 'remarks'
             ]);
         });
