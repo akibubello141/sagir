@@ -39,15 +39,19 @@
                     </div>
 
                      <div class="col-md-3">
+                        <label>Enter Product</label>
                         <select name="product_id" id="" class="form-control">
                             <option value="0" >Select Product</option>
                             @foreach($products as $product)
                             <option value="{{$product->id}}" data-id="{{ $product->price }}">{{ $product->name}}|Price:{{$product->price }}|Stock:{{ $product->stock_quantity }}</option>
                             @endforeach
                         </select>
-
-                        <input type="number" id="product_amount"  class="form-control" placeholder="Enter price">
                        
+                    </div>
+
+                     <div class="col-md-3">
+                        <label>Enter Price</label>
+                        <input type="number" id="product_amount"  class="form-control" placeholder="Enter price">
                     </div>
 
                     <div class="col-md-3">
