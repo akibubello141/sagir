@@ -105,7 +105,7 @@
                 <th>PLUS</th>
                 <th>PLUS AMOUNT</th>
                 <th>VEHICLE FUEL</th>
-                <th>VEHICLE EXP</th>
+                <th>EXPEND</th>
                 <th>CREDIT</th>
                 <th>TRANSFER</th>
                 <th>PAID CREDIT</th>
@@ -145,7 +145,7 @@
 
             @endforeach
             <tr class="table-primary" style="font: size 24px;">
-                <th colspan="2">GRAND TOTAL:</th>
+                <th colspan="3">GRAND TOTAL:</th>
                 <th>{{ number_format($totals->bags_sold, 2) }}</th>
                 <th>{{ number_format($totals->total_amount, 2) }}</th>
                 <th>{{ number_format($totals->linkages, 2) }}</th>
@@ -161,7 +161,6 @@
                 <th>{{ number_format($totals->special_exp2, 2) }}</th>
                 <th>{{ number_format($totals->total_balance, 2) }}</th>
                 <th>{{ number_format($totals->gross, 2) }}</th>
-                <th></th>
             </tr>
 
         </tbody>

@@ -97,7 +97,7 @@
                     <th>PLUS</th>
                     <th>PLUS AMOUNT</th>
                     <th>VEHICLE FUEL</th>
-                    <th>VEHICLE EXP</th>
+                    <th>EXP</th>
                     <th>CREDIT</th>
                     <th>TRANSFER</th>
                     <th>PAID CREDIT</th>

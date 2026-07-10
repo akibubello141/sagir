@@ -30,4 +30,8 @@ class User extends Authenticatable
             'role' => 'string',
         ];
     }
+    public function dispatches()
+    {
+        return $this->hasMany(Dispatch::class, 'supervisor_id');
+    }
 }

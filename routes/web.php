@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\Cashier\CashierSaleController;
-
+use App\Http\Controllers\Cashier\DispatchController;
 use App\Http\Controllers\Cashier\SaleController;
 use App\Http\Controllers\Cashier\CustomerController;
 
@@ -92,6 +92,16 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
             Route::get('/report',[CashierSaleController::class,'report'])->name('report');
             });
 
+        Route::prefix('dispatch')
+        ->name('dispatch.')
+        ->group(function(){
+            Route::get('/',[DispatchController::class,'index'])->name('index');
+            Route::post('/save',[DispatchController::class,'store'])->name('save');
+            Route::get('/edit/{id}',[DispatchController::class,'edit'])->name('edit');
+            Route::post('/update/{id}',[DispatchController::class,'update'])->name('update');
+            Route::get('/delete/{id}',[DispatchController::class,'delete'])->name('delete');
+        });
+
     });
 });
 
@@ -149,6 +159,7 @@ Route::middleware(['auth','role:manager'])->group(function () {
         ->group(function () {
             Route::get('/sale', [ReportController::class, 'saleReport'])->name('sale');
             Route::get('/production',[ReportController::class,'productionReport'])->name('production');
+            Route::get('/dispatch',[ReportController::class,'dispatchReport'])->name('dispatch');
         });
     });
 

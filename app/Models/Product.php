@@ -22,4 +22,8 @@ class Product extends Model
     {
         return $this->hasMany(ProductionRecord::class);
     }
+    public function dispatches()
+    {
+        return $this->hasMany(Dispatch::class);
+    }
 }

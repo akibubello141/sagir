@@ -15,6 +15,7 @@ use App\Models\SystemSetting;
 use App\Models\ProductionRecord;
 use App\Models\SaleItem;
 use App\Models\Staff;
+use App\Models\Dispatch;
 
 
 class ReportController extends Controller
@@ -144,6 +145,61 @@ class ReportController extends Controller
                 'totalProduction',
                 'productions',
                 'producers',
+                'products'
+            )
+        );
+    }
+
+    //DISPATCH REPORT
+     public function dispatchReport(Request $request)
+    {
+
+         $query = Dispatch::with('product');
+
+        // Search by Date
+      
+
+         if ($request->sales_date && $request->sales_date1) {
+
+             $query->whereBetween('dispatch_date', [
+                $request->sales_date ,
+                $request->sales_date1
+            ]);
+        }
+
+    
+        // Search by product
+        if ($request->filled('product_id')) {
+            $query->where('product_id', $request->product_id);
+        }
+
+        // Search by schedule
+        if ($request->filled('shifting')) {
+            $query->where('shifting', $request->shifting);
+        }
+    
+         // Search by PRODUCTION SITE
+        if ($request->filled('production_site')) {
+            $query->where('production_site', $request->production_site);
+        }
+    
+
+        $dispatches = $query
+            ->latest()
+            ->paginate($request->per_page ?? 10)
+            ->withQueryString();        
+
+
+        $products = Product::all();
+        $totalProduction = Dispatch::count('id');
+
+
+        return view(
+            'manager.dispatch-report',
+            compact(
+             
+                'totalProduction',
+                'dispatches',
                 'products'
             )
         );

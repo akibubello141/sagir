@@ -62,6 +62,12 @@ MANAGER
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('manager.report.dispatch')}}">
+                        Dispatch Report
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('manager.report.sale')}}">
                        Sales Report
                     </a>

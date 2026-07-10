@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('production_records', function (Blueprint $table) {
+        Schema::table('dispatches', function (Blueprint $table) {
             //
 
+         $table->string('production_site')->nullable()->after('driver_name');
+         $table->string('shifting')->nullable()->after('production_site');
         });
+
     }
 
     /**
@@ -22,9 +25,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('production_records', function (Blueprint $table) {
+        Schema::table('dispaatch', function (Blueprint $table) {
             //
-            $table->dropColumn('bags_per_kg');
+             $table->dropColumn([
+                'production_site',
+                'shifting',
+            ]);
         });
     }
 };

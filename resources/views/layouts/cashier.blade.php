@@ -66,6 +66,12 @@ CASHIER
                     </a>
                 </li>
 
+                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('cashier.dispatch.index') }}">
+                        Dispatches
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('cashier.driver.report')}}">
                         Reports
