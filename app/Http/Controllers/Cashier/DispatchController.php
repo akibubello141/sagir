@@ -5,7 +5,7 @@ namespace App\Http\Controllers\cashier;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Dispatch;
-use App\Models\product;
+use App\Models\Product;
 
 
 class dispatchController extends Controller
@@ -17,7 +17,7 @@ class dispatchController extends Controller
         // $products = product::all();
         // return view('cashier.dispatch', compact('dispatches', 'products'));
 
-         $query = Dispatch::with('product');
+         $query = Dispatch::with('Product');
 
         // Search by Date
       
