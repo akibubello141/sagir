@@ -61,7 +61,7 @@
             </select>
         </div>
 
-         <div class="col-md-2">
+         <div class="col-md-1">
             <select name="production_site" id="production_site" class="form-control">
                 <option value="">All Sites</option>
                 <option value="Shingai Site">Shingai Site</option>
@@ -91,6 +91,17 @@
             <button class="btn btn-primary w-100">
                 Search
             </button>
+        </div>
+         <div class="col-md-1">
+             <a href="{{ route('manager.print.production') }}"
+                class="btn btn-primary"
+                target="_blank">
+
+                <i class="fa fa-print"></i>
+
+                Print
+
+            </a>
         </div>
 
     </form>

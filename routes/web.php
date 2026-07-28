@@ -13,6 +13,7 @@ use App\Http\Controllers\Manager\ProductController;
 use App\Http\Controllers\Manager\UserController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\Manager\ReportController;
+use App\Http\Controllers\Manager\PrintController;
 
 
 
@@ -110,11 +111,7 @@ Route::middleware(['auth', 'role:cashier'])->group(function () {
 //manager
 Route::middleware(['auth','role:manager'])->group(function () {
 
-  
     Route::get('/manager/dash',[ManagerController::class, 'dash']);
-
-    // BACKUP
-    Route::get('/manager/backup',[ManagerController::class, 'backup']);
 
     Route::name('manager.')
     ->prefix('manager')
@@ -160,6 +157,18 @@ Route::middleware(['auth','role:manager'])->group(function () {
             Route::get('/sale', [ReportController::class, 'saleReport'])->name('sale');
             Route::get('/production',[ReportController::class,'productionReport'])->name('production');
             Route::get('/dispatch',[ReportController::class,'dispatchReport'])->name('dispatch');
+        });
+
+        //Print
+        Route::prefix('print')
+        ->name('print.')
+        ->group(function () {
+            Route::get('/print/sales',[PrintController::class,'sales'])->name('sales');
+            Route::get('/print/production',[PrintController::class,'production'])->name('production');
+            Route::get('/print/dispatch',[PrintController::class,'dispatch'])->name('dispatch');
+            Route::get('/print/expenses',[PrintController::class,'expenses'])->name('expenses');
+            Route::get('/print/stock',[PrintController::class,'stock'])->name('stock');
+
         });
     });
 
