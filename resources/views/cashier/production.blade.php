@@ -221,7 +221,7 @@
                             id="kg_collected"
                             name="kg_collected"
                             class="form-control"
-                            oninput="calculateProduction()">
+                            oninput="calculateProduction()" require>
                     </div>
 
                     <div class=" mb-2">
@@ -230,7 +230,7 @@
                             id="kg_used"
                             name="kg_used"
                             class="form-control"
-                            oninput="calculateProduction()">
+                            oninput="calculateProduction()" required>
                     </div>
 
                     <div class=" mb-2">
@@ -244,11 +244,11 @@
 
                     <div class=" mb-2">
                         <label>No. of Bags Per KG</label>
-                        <input type="number"
+                        <input type="number" step="0.01"
                             id="bags_per_kg"
                             name="bags_per_kg"
                             class="form-control"
-                            oninput="calculateProduction()">
+                            oninput="calculateProduction()" required>
                     </div>
 
                     <div class=" mb-2">
@@ -262,13 +262,14 @@
 
                     <div class="mb-2">
                         <label for="damaged_quantity" class="form-label">Damaged Quantity</label>
-                        <input type="number" name="damaged_quantity" id="damaged_quantity" class="form-control">
+                        <input type="number" name="damaged_quantity" id="damaged_quantity" class="form-control" required>
                         <input type="number" hidden name="returned_quantity" id="returned_quantity" value="0" class="form-control">
                     </div>
 
                     <div class="mb-2">
                         <label for="production_site" class="form-label">Production Site</label>
-                        <select name="production_site" id="production_site" class="form-control">
+                        <select name="production_site" id="production_site" class="form-control" required>
+                            <option value="">Select</option>
                             <option value="Shingai Site">Shingai Site</option>
                             <option value="Main Site">Main Site</option>
                         </select>
@@ -276,7 +277,8 @@
 
                      <div class="mb-2">
                         <label for="shifting" class="form-label">Shifting</label>
-                        <select name="shifting" id="shifting" class="form-control">
+                        <select name="shifting" id="shifting" class="form-control" required>
+                            <option value="">Select</option>
                             <option value="Morning">Morning</option>
                             <option value="Afternoon">Afternoon</option>
                         </select>
@@ -284,7 +286,7 @@
                     
                      <div class="mb-2">
                         <label for="producer_name" class="form-label"> Producer Name</label>
-                        <input type="text" name="producer_name" id="producer_name" class="form-control">
+                        <input type="text" name="producer_name" id="producer_name" class="form-control" required>
                     </div>
 
                     <div class="mb-2">
